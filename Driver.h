@@ -4,10 +4,11 @@
 #include "Tipos.h"
 #include "aed2/Conj.h"
 #include "aed2/TiposBasicos.h"
-#include "BaseDeDatos.h"
+//#include "BaseDeDatos.h"
 
 namespace aed2
 {
+
 
 class Driver
 {
@@ -248,6 +249,8 @@ class Driver
      ************************************************************************/
 
 }; // class Driver
+
+
 
 }; // namespace aed2
 

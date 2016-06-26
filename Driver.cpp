@@ -226,9 +226,4 @@ aed2::Conj<Driver::Registro> Driver::vistaJoin(const NombreTabla& tabla1, const 
 }
 
 
-int main()
-{
-  
-  return 0;
-}
 
