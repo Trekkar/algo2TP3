@@ -1,4 +1,3 @@
-#include <algorithm>
 #include "tabla.h"
 #include "Driver.cpp"
 using namespace std;

@@ -11,10 +11,11 @@
 class tuplaIt {
         
         public:
-        tuplaIt(const Conj<Driver::Registro>::Iterador c, const Conj<tuplaIt>::Iterador o);
+        tuplaIt();
+        tuplaIt(Conj<Driver::Registro>::Iterador c, Conj<tuplaIt>::Iterador o);
         
-        void cambiarCR(const Conj<Driver::Registro>::Iterador c);
-        void cambiarOA(const Conj<tuplaIt>::Iterador o);
+        void cambiarCR(Conj<Driver::Registro>::Iterador c);
+        void cambiarOA(Conj<tuplaIt>::Iterador o);
 
         private:
         Conj<Driver::Registro>::Iterador cr;
@@ -79,14 +80,16 @@ class Tabla {
 
         //ALGORITMOS:
 
-        tuplaIt::tuplaIt(const Conj<Driver::Registro>::Iterador c, const Conj<tuplaIt>::Iterador o) : cr(c), oa(o) {
+    	tuplaIt::tuplaIt() {}
+
+        tuplaIt::tuplaIt(Conj<Driver::Registro>::Iterador c, Conj<tuplaIt>::Iterador o) : cr(c), oa(o) {
         } 
 
-        void tuplaIt::cambiarCR(const Conj<Driver::Registro>::Iterador c){
+        void tuplaIt::cambiarCR(Conj<Driver::Registro>::Iterador c){
         cr = c;
         }
 
-        void tuplaIt::cambiarOA(const Conj<tuplaIt>::Iterador o){
+        void tuplaIt::cambiarOA(Conj<tuplaIt>::Iterador o){
         oa = o;    
         }
 
@@ -193,7 +196,11 @@ class Tabla {
             }
         }
         
-        void Tabla::quitarRegistro(const Driver::Registro) {}
+        void Tabla::quitarRegistro(const Driver::Registro) {
+
+
+
+        }
         
         void Tabla::indexar(const NombreCampo) {}
         
