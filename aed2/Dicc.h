@@ -60,9 +60,9 @@ class Dicc
 
         bool HaySiguiente() const;
         bool HayAnterior() const;
-        K& SiguienteClave();
+        const K& SiguienteClave() const;
         S& SiguienteSignificado();
-        K& AnteriorClave();
+        const K& AnteriorClave() const;
         S& AnteriorSignificado();
         Elem Siguiente();
         Elem Anterior();
@@ -304,7 +304,7 @@ bool Dicc<K,S>::Iterador::HayAnterior() const
 }
 
 template<class K, class S>
-K& Dicc<K,S>::Iterador::SiguienteClave()
+const K& Dicc<K,S>::Iterador::SiguienteClave() const
 {
   #ifdef DEBUG
   assert(HaySiguiente());
@@ -334,7 +334,7 @@ typename Dicc<K,S>::Elem Dicc<K,S>::Iterador::Siguiente()
 }
 
 template<class K, class S>
-K& Dicc<K,S>::Iterador::AnteriorClave()
+const K& Dicc<K,S>::Iterador::AnteriorClave() const
 {
   #ifdef DEBUG
   assert( HayAnterior() );

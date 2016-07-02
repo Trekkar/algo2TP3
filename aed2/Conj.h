@@ -69,8 +69,8 @@ class Conj
         bool HaySiguiente() const;
         bool HayAnterior() const;
 
-        T& Siguiente();
-        T& Anterior();
+        const T& Siguiente() const;
+        const T& Anterior() const;
 
         void Avanzar();
         void Retroceder();
@@ -233,7 +233,8 @@ bool Conj<T>::Iterador::HayAnterior() const
 }
 
 template<class T>
-T& Conj<T>::Iterador::Siguiente(){
+const T& Conj<T>::Iterador::Siguiente() const
+{
   #ifdef DEBUG
   assert( HaySiguiente() );
   #endif
@@ -242,7 +243,7 @@ T& Conj<T>::Iterador::Siguiente(){
 }
 
 template<class T>
-T& Conj<T>::Iterador::Anterior()
+const T& Conj<T>::Iterador::Anterior() const
 {
   #ifdef DEBUG
   assert( HayAnterior() );
