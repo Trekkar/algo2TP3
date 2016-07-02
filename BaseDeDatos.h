@@ -4,13 +4,12 @@
 #ifndef BASEDEDATOS_H_
 #define BASEDEDATOS_H_
 
-#include "Tipos.h"
-#include "Driver.h"
-#include "aed2/Dicc.h"
-#include "aed2/Lista.h" //(incluido en diccionario)
-#include "aed2/TiposBasicos.h"
-
-typedef bool Tabla;
+// #include "Tipos.h"
+// #include "Driver.h"
+// #include "aed2/Dicc.h"
+// #include "aed2/Lista.h" //(incluido en diccionario)
+// #include "aed2/TiposBasicos.h"
+#include "tabla.h"
 
  //fake tabla para compilar
 //typedef bool indiceNAux;
@@ -39,7 +38,7 @@ class BaseDeDatos
 public:
 	BaseDeDatos();
 	~BaseDeDatos();
-	void agregarTabla(const Tabla& t);
+	void agregarTabla(Tabla& t);
 	void insertarEntrada(const Driver::Registro& r, NombreTabla t);
 	void borrar(const Driver::Registro& r, NombreTabla t);
 	void generarVistaJoin(const NombreTabla t1, const NombreTabla t2, const NombreCampo c);
@@ -99,12 +98,12 @@ public:
 	};
 
  	struct tuplaAux{
-		Tabla tab;
+		Tabla* tab; //puse un puntero porque no tenemos operador =
 		Conj<NombreTabla> nombresJoins;
 		Dicc<NombreTabla, nodoJoin> dicJoin;
 		//DicString<nodoJoin> j;
 
-		tuplaAux(Tabla t);
+		tuplaAux(Tabla* t);
 	};
 
  	Dicc<NombreTabla, tuplaAux> arbolTablas;

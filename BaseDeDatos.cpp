@@ -1,4 +1,6 @@
 #include "BaseDeDatos.h"
+#include "Driver.cpp"
+//#include "tabla.h"
 
 using namespace aed2;
 
@@ -22,7 +24,7 @@ BaseDeDatos::BaseDeDatos()
 
 }
 
-BaseDeDatos::tuplaAux::tuplaAux(Tabla t)
+BaseDeDatos::tuplaAux::tuplaAux(Tabla* t)
  // 	tab(t), nombresJoins(conj()), j(Dicc())
  {
  	Conj<NombreTabla> c = Conj<NombreTabla>();
@@ -74,7 +76,6 @@ BaseDeDatos::tuplaJoin::tuplaJoin(NombreCampo c, TipoCampo t)
 // 	//Modificar. Siempre se va a crear por referencia.
 // {}
 
-	
 	// void insertarEntrada(const Driver::Registro& r, NombreTabla t);
 	// void borrar(const Driver::Registro& r, NombreTabla t);
 	// void generarVistaJoin(const NombreTabla t1, const NombreTabla t2, const NombreCampo c);
@@ -94,7 +95,7 @@ NombreTabla BaseDeDatos::tablaMaxima(){
 
 Tabla& BaseDeDatos::dameTabla(const NombreTabla t){
 	//tuplaAux a = arbolTablas.Significado(t);
-	return (arbolTablas.Significado(t)).tab;
+	return (*(arbolTablas.Significado(t)).tab);
 };
 
 NombreCampo BaseDeDatos::campoJoin(const NombreTabla t1, const NombreTabla t2){
@@ -111,8 +112,12 @@ bool BaseDeDatos::hayJoin(const NombreTabla t1, const NombreTabla t2){
 
 // void agregarTabla(const Tabla& t);
 
-void BaseDeDatos::agregarTabla(const Tabla& t){
+void BaseDeDatos::agregarTabla(Tabla& t){
+	Tabla* p = &t;
+	tuplaAux a = tuplaAux(p);
+	nTablas.Agregar(t.nombreDeLaTabla());
 
+	arbolTablas.Definir(t.nombreDeLaTabla(), a);
 
 };
 
