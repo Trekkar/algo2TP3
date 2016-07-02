@@ -12,8 +12,8 @@
 
 
 typedef bool Tabla; //fake tabla para compilar
-typedef bool indiceNAux;
-typedef bool indiceSAux;
+//typedef bool indiceNAux;
+//typedef bool indiceSAux;
 
 //TYPOS ROBADOS/////////////////////////////////////////////////////////////////////////////
 
@@ -73,29 +73,19 @@ public:
 		tuplaUnion();
 	};
 
-	struct indiceSAux{
-		DicString<tuplaUnion> d;
-		bool v;
+	
 
-		indiceSAux();
-	};
-
-	struct indiceNAux{
-		DicNat<dato, tuplaUnion>  d; //DicNat toma dos parámetros, no?
-		bool v;
-
-		indiceNAux();
-	};
-
-		struct tuplaJoin{
+	struct tuplaJoin{
 		NombreCampo cJoin;
 		Conj<Driver::Registro> vistaJoin;
-		indiceSAux indiceS;
-		indiceNAux indiceN;
+		Dicc<String, tuplaUnion> indiceS;
+		bool indiceSValido;
+		Dicc<Nat, tuplaUnion> indiceN;
+		bool indiceNValido;
 		Lista<tuplaCambios> modificaciones; //ESTO TENDRIA QUE SER UNA COLA! Pero no esta implementada, asique usamos Lista
 		//const_Iterador nombreJoin; //Apunta al nombre de la tabla (de tuplaAux). Creo que esto ya no tiene mas uso, al no ser reciproco
 
-		tuplaJoin();
+		tuplaJoin(NombreCampo c, TipoCampo t);
 	};
 	
 
@@ -103,13 +93,14 @@ public:
 		bool principal;
 		tuplaJoin* p;
 
-		nodoJoin();
+		nodoJoin(tuplaJoin* t, bool v);
 	};
 
  	struct tuplaAux{
 		Tabla tab;
 		Conj<NombreTabla> nombresJoins;
-		DicString<nodoJoin> j;
+		Dicc<NombreTabla, nodoJoin> dicJoin;
+		//DicString<nodoJoin> j;
 
 		tuplaAux(Tabla t);
 	};
