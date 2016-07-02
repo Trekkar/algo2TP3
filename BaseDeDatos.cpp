@@ -74,17 +74,12 @@ BaseDeDatos::tuplaJoin::tuplaJoin(NombreCampo c, TipoCampo t)
 // 	//Modificar. Siempre se va a crear por referencia.
 // {}
 
-	// void agregarTabla(const Tabla& t);
+	
 	// void insertarEntrada(const Driver::Registro& r, NombreTabla t);
 	// void borrar(const Driver::Registro& r, NombreTabla t);
 	// void generarVistaJoin(const NombreTabla t1, const NombreTabla t2, const NombreCampo c);
 	// Conj<Driver::Registro>::const_Iterador vistaJoin(const NombreTabla t1, const NombreTabla t2);
 	// void borrarJoin(const NombreTabla t1, const NombreTabla t2);
-	// Conj<NombreTabla>::const_Iterador tablas();
-	// Tabla dameTabla(const NombreTabla t);
-	// bool hayJoin(const NombreTabla t1, const NombreTabla t2);
-	// NombreCampo campoJoin(const NombreTabla t1, const NombreTabla t2);
-	// NombreTabla tablaMaxima(); //devuelve el nombre de la tabla con mayor acceso (tablaM)
 	// Conj<Driver::Registro>& buscar(const Driver::Registro& crit, const NombreTabla t);
 
 
@@ -92,6 +87,43 @@ Conj<NombreTabla>::const_Iterador BaseDeDatos::tablas(){
 
 	return nTablas.CrearIt();
 };
+
+NombreTabla BaseDeDatos::tablaMaxima(){
+	return tablaM;
+};
+
+Tabla& BaseDeDatos::dameTabla(const NombreTabla t){
+	//tuplaAux a = arbolTablas.Significado(t);
+	return (arbolTablas.Significado(t)).tab;
+};
+
+NombreCampo BaseDeDatos::campoJoin(const NombreTabla t1, const NombreTabla t2){
+	tuplaJoin* a = (((arbolTablas.Significado(t1)).dicJoin).Significado(t2)).p;
+
+	return a->cJoin;
+};
+
+bool BaseDeDatos::hayJoin(const NombreTabla t1, const NombreTabla t2){
+
+	bool r = (((arbolTablas.Significado(t1)).dicJoin).Definido(t2));
+	return r;
+};
+
+// void agregarTabla(const Tabla& t);
+
+void BaseDeDatos::agregarTabla(const Tabla& t){
+
+
+};
+
+
+
+
+
+
+
+
+
 
 
 

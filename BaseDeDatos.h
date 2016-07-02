@@ -10,8 +10,9 @@
 #include "aed2/Lista.h" //(incluido en diccionario)
 #include "aed2/TiposBasicos.h"
 
+typedef bool Tabla;
 
-typedef bool Tabla; //fake tabla para compilar
+ //fake tabla para compilar
 //typedef bool indiceNAux;
 //typedef bool indiceSAux;
 
@@ -34,6 +35,7 @@ using namespace aed2;
 class BaseDeDatos
 {
 
+
 public:
 	BaseDeDatos();
 	~BaseDeDatos();
@@ -44,7 +46,7 @@ public:
 	Conj<Driver::Registro>::const_Iterador vistaJoin(const NombreTabla t1, const NombreTabla t2);
 	void borrarJoin(const NombreTabla t1, const NombreTabla t2);
 	Conj<NombreTabla>::const_Iterador tablas();
-	Tabla dameTabla(const NombreTabla t);
+	Tabla& dameTabla(const NombreTabla t);
 	bool hayJoin(const NombreTabla t1, const NombreTabla t2);
 	NombreCampo campoJoin(const NombreTabla t1, const NombreTabla t2);
 	NombreTabla tablaMaxima(); //devuelve el nombre de la tabla con mayor acceso (tablaM)
@@ -110,7 +112,6 @@ public:
  	NombreTabla tablaM;
  	Conj<NombreTabla> nTablas;
 
-	
 
 };
 
