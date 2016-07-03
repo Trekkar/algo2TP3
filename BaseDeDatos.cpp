@@ -12,9 +12,7 @@ int main()
 }
 
 
-BaseDeDatos::BaseDeDatos() 
-	//arbolTablas(aed2::Dicc::Dicc()), tablaM(NULL), nTablas(aed2::Conj::Conj())
-{
+BaseDeDatos::BaseDeDatos(){
 	Dicc<NombreTabla, tuplaAux> d = Dicc<NombreTabla, tuplaAux>();
 	Conj<NombreTabla> t = Conj<NombreTabla>();
 
@@ -24,12 +22,9 @@ BaseDeDatos::BaseDeDatos()
 
 }
 
-BaseDeDatos::tuplaAux::tuplaAux(Tabla* t)
- // 	tab(t), nombresJoins(conj()), j(Dicc())
- {
+BaseDeDatos::tuplaAux::tuplaAux(Tabla* t){
  	Conj<NombreTabla> c = Conj<NombreTabla>();
  	Dicc<NombreTabla, nodoJoin> d = Dicc<NombreTabla, nodoJoin>();
-
 
  	tab = t;
  	nombresJoins = c;
@@ -37,16 +32,12 @@ BaseDeDatos::tuplaAux::tuplaAux(Tabla* t)
 
  }
 
-BaseDeDatos::nodoJoin::nodoJoin(tuplaJoin* t, bool v)
-// 	//Modificar. Siempre se va a crear por referencia.
- {
+BaseDeDatos::nodoJoin::nodoJoin(tuplaJoin* t, bool v){
  	principal = v;
  	p = t;
  }
 
-BaseDeDatos::tuplaJoin::tuplaJoin(NombreCampo c, TipoCampo t)
-// 	//Modificar. Siempre se va a crear por referencia.
- {
+BaseDeDatos::tuplaJoin::tuplaJoin(NombreCampo c, TipoCampo t, Conj<NombreTabla>::Iterador z){
  	Conj<Driver::Registro> a = Conj<Driver::Registro>();
  	Dicc<String, tuplaUnion> i = Dicc<String, tuplaUnion>();
  	Dicc<Nat, tuplaUnion> j = Dicc<Nat, tuplaUnion>();
@@ -64,28 +55,31 @@ BaseDeDatos::tuplaJoin::tuplaJoin(NombreCampo c, TipoCampo t)
 		indiceSValido = true;
 		indiceNValido = false;
 	};
+	nombreJoin = z;
 
  }
 
 
-// BaseDeDatos::tuplaUnion::tuplaUnion():
-// 	//Modificar. Siempre se va a crear por referencia.
-// {}
+BaseDeDatos::tuplaUnion::tuplaUnion(Driver::Registro r1, Driver::Registro r2, Conj<Driver::Registro>::const_Iterador i){
+		registroTablaUno = r1;
+		registroTablaDos = r2;
+		registroJoin = i;
+	}
 
-// BaseDeDatos::tuplaCambios::tuplaCambios():
-// 	//Modificar. Siempre se va a crear por referencia.
-// {}
+BaseDeDatos::tuplaCambios::tuplaCambios(NombreTabla n, Driver::Registro reg, bool a){
+    	nTabla = n;
+		r = reg;
+		agregar  = a;
+    }
 
 	// void insertarEntrada(const Driver::Registro& r, NombreTabla t);
 	// void borrar(const Driver::Registro& r, NombreTabla t);
 	// void generarVistaJoin(const NombreTabla t1, const NombreTabla t2, const NombreCampo c);
 	// Conj<Driver::Registro>::const_Iterador vistaJoin(const NombreTabla t1, const NombreTabla t2);
-	// void borrarJoin(const NombreTabla t1, const NombreTabla t2);
 	// Conj<Driver::Registro>& buscar(const Driver::Registro& crit, const NombreTabla t);
 
 
 Conj<NombreTabla>::const_Iterador BaseDeDatos::tablas(){
-
 	return nTablas.CrearIt();
 };
 
@@ -110,7 +104,6 @@ bool BaseDeDatos::hayJoin(const NombreTabla t1, const NombreTabla t2){
 	return r;
 };
 
-// void agregarTabla(const Tabla& t);
 
 void BaseDeDatos::agregarTabla(Tabla& t){
 	Tabla* p = &t;
@@ -118,8 +111,21 @@ void BaseDeDatos::agregarTabla(Tabla& t){
 	nTablas.Agregar(t.nombreDeLaTabla());
 
 	arbolTablas.Definir(t.nombreDeLaTabla(), a);
-
 };
+
+void BaseDeDatos::borrarJoin(const NombreTabla t1, const NombreTabla t2){
+	tuplaJoin* a = (((arbolTablas.Significado(t1)).dicJoin).Significado(t2)).p;
+	(a->nombreJoin).EliminarSiguiente(); //WARNING! SI SE INDEFINE BORRANDO UN ELEMENTO EXPLOTA TODO!
+	delete a;
+	((arbolTablas.Significado(t1)).dicJoin).Borrar(t2);
+
+
+	tuplaJoin* b = (((arbolTablas.Significado(t2)).dicJoin).Significado(t1)).p;
+	(b->nombreJoin).EliminarSiguiente(); //WARNING! SI SE INDEFINE BORRANDO UN ELEMENTO EXPLOTA TODO!
+	delete b;
+	((arbolTablas.Significado(t2)).dicJoin).Borrar(t1); 
+}
+
 
 
 

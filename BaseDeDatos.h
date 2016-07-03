@@ -63,7 +63,7 @@ public:
 		Driver::Registro r;
 		bool agregar;
 
-		tuplaCambios();	
+		tuplaCambios(NombreTabla n, Driver::Registro reg, bool a);	
 	};
 
 	struct tuplaUnion{
@@ -71,7 +71,7 @@ public:
 		Driver::Registro registroTablaDos;
 		Conj<Driver::Registro>::const_Iterador registroJoin;
 
-		tuplaUnion();
+		tuplaUnion(Driver::Registro r1, Driver::Registro r2, Conj<Driver::Registro>::const_Iterador i);
 	};
 
 	
@@ -84,9 +84,9 @@ public:
 		Dicc<Nat, tuplaUnion> indiceN;
 		bool indiceNValido;
 		Lista<tuplaCambios> modificaciones; //ESTO TENDRIA QUE SER UNA COLA! Pero no esta implementada, asique usamos Lista
-		//const_Iterador nombreJoin; //Apunta al nombre de la tabla (de tuplaAux). Creo que esto ya no tiene mas uso, al no ser reciproco
+		Conj<NombreTabla>::Iterador nombreJoin;
 
-		tuplaJoin(NombreCampo c, TipoCampo t);
+		tuplaJoin(NombreCampo c, TipoCampo t, Conj<NombreTabla>::Iterador j);
 	};
 	
 
