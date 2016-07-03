@@ -320,7 +320,7 @@ class Tabla {
 
         			while(it.HaySiguiente()){
         				Nat actual = ((it.Siguiente()).Significado(c)).dameNat();
-        				String vecino = ((it.Siguiente()).Significado(c)).dameString();
+        				String vecino = ((it.Siguiente()).Significado(CamIndiceS)).dameString();
         				Lista<tuplaIt>::Iterador vecinoIt = (DicIndiceS.Significado(vecino)).CrearIt();	
         					while(!registrosIguales(((vecinoIt.Siguiente()).CR()).Siguiente(),it.Siguiente())){
         						vecinoIt.Avanzar();
@@ -336,7 +336,7 @@ class Tabla {
         			}
 
         		}
-
+                EstaIndiceN = true;
         		CamIndiceN = c;
         		//minDatoNat = max(DicIndiceN);     CUANDO ESTE LISTO ABB
                 //maxDatoNat = min(DicIndiceN);     CUANDO ESTE LISTO ABB
@@ -358,7 +358,7 @@ class Tabla {
 				
 						while(it.HaySiguiente()){
         				String actual = ((it.Siguiente()).Significado(c)).dameString();
-        				Nat vecino = ((it.Siguiente()).Significado(c)).dameNat();
+        				Nat vecino = ((it.Siguiente()).Significado(CamIndiceN)).dameNat();
         				Lista<tuplaIt>::Iterador vecinoIt = (DicIndiceN.Significado(vecino)).CrearIt();	
         					while(!registrosIguales(((vecinoIt.Siguiente()).CR()).Siguiente(),it.Siguiente())){
         						vecinoIt.Avanzar();
@@ -374,6 +374,7 @@ class Tabla {
         			}
 
         		}
+                EstaIndiceS = true;
         		CamIndiceS = c;
         		//minDatoString = max(DicIndiceS);      CUANDO ESTE LISTO TRIE
                 //maxDatoString = min(DicIndiceS);      CUANDO ESTE LISTO TRIE
@@ -473,6 +474,10 @@ class Tabla {
 			cout << "     ** FIN **" << endl;
 		}
 
+        //Dicc<Nat, Lista<tuplaIt> > DicIndiceN; 
+        //Dicc<String, Lista<tuplaIt> > DicIndiceS; 
+        //void mostrarIndiceN(Driver::)
+
         void Tabla::mostrarTabla() const {
 			cout << "** MUESTRO LA TABLA TITULADA " << nombreT << " **" << endl;
 			cout << "CANTIDAD DE ACCESOS: " << accesosT << endl;
@@ -530,6 +535,7 @@ class Tabla {
 					Driver::Registro r = regIt.Siguiente();
 					mostrarReg(r);
 					regIt.Avanzar();
+                    j++;
 				}    
 
 			cout << "** FIN DE LA TABLA " << nombreT << " **" << endl;

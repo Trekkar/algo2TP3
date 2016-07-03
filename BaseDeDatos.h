@@ -84,9 +84,10 @@ public:
 		Dicc<Nat, tuplaUnion> indiceN;
 		bool indiceNValido;
 		Lista<tuplaCambios> modificaciones; //ESTO TENDRIA QUE SER UNA COLA! Pero no esta implementada, asique usamos Lista
-		Conj<NombreTabla>::Iterador nombreJoin;
+		Conj<NombreTabla>::Iterador nombreJoint1;
+		Conj<NombreTabla>::Iterador nombreJoint2;
 
-		tuplaJoin(NombreCampo c, TipoCampo t, Conj<NombreTabla>::Iterador j);
+		tuplaJoin(NombreCampo c, TipoCampo t, Conj<NombreTabla>::Iterador t1, Conj<NombreTabla>::Iterador t2);
 	};
 	
 
@@ -110,7 +111,7 @@ public:
  	//DicString<tuplaAux> arbolTablas;
  	NombreTabla tablaM;
  	Conj<NombreTabla> nTablas;
-
+ 	Conj<Driver::Registro> vacio;
 
 };
 
