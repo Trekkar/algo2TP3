@@ -224,16 +224,61 @@ void BaseDeDatos::generarVistaJoin(const NombreTabla t1, const NombreTabla t2, c
 	};
 }
 
-Conj<Driver::Registro>::const_Iterador vistaJoin(const NombreTabla t1, const NombreTabla t2){
+Conj<Driver::Registro>::const_Iterador BaseDeDatos::vistaJoin(const NombreTabla t1, const NombreTabla t2){
+ // 	struct tuplaCambios{
+	// 	NombreTabla nTabla;
+	// 	Driver::Registro r;
+	// 	bool agregar;
 
- 	struct tuplaCambios{
-		NombreTabla nTabla;
-		Driver::Registro r;
-		bool agregar;
+	// 	tuplaCambios(NombreTabla n, Driver::Registro reg, bool a);	
+	// };
 
-		tuplaCambios(NombreTabla n, Driver::Registro reg, bool a);	
+	// 	struct tuplaJoin{
+	// 	NombreCampo cJoin;
+	// 	Conj<Driver::Registro> vistaJoin;
+	// 	Dicc<String, tuplaUnion> indiceS;
+	// 	bool indiceSValido;
+	// 	Dicc<Nat, tuplaUnion> indiceN;
+	// 	bool indiceNValido;
+	// 	Lista<tuplaCambios> modificaciones; //ESTO TENDRIA QUE SER UNA COLA! Pero no esta implementada, asique usamos Lista
+	// 	Conj<NombreTabla>::Iterador nombreJoint1;
+	// 	Conj<NombreTabla>::Iterador nombreJoint2;
+
+	// 	tuplaJoin(NombreCampo c, TipoCampo t, Conj<NombreTabla>::Iterador t1, Conj<NombreTabla>::Iterador t2);
+	// };
+
+	tuplaJoin* tj = (((arbolTablas.Significado(t1)).dicJoin).Significado(t2)).p;
+	Lista<tuplaCambios>::Iterador it = (tj->modificaciones).CrearIt();
+
+while(it.HaySiguiente()){
+	if((Siguiente().nTabla) == t1){								//CASO TABLA1
+				
+		if((it.Siguiente()).agregar){							//CASO AGREGAR
+
+				if(tj->indiceSValido){							//CASO INDICE STRING
+
+					if(){										//CASO ESTA DEFINIDO
+
+					}else{										//CASO NO ESTA DEFINIDO
+
+					}	
+
+				}else{											//CASO INDICE NAT
+
+				}
+
+		}else{													//CASO BORRAR
+
+		}
+
+	}else{														//CASO TABLA2
+
+
+	}
+
 	};
 
+	return (tj->vistaJoin).CrearIt();
 }
 
 
