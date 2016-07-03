@@ -6,6 +6,7 @@
     #include "aed2/Conj.h"
     #include "Driver.h"
     using namespace aed2;
+    using namespace std;
 
 
 
@@ -34,13 +35,11 @@ class Tabla {
         Tabla(const NombreTabla&, const Conj<Columna>&, const Conj<NombreCampo>&);
         Tabla(const Tabla&);
         ~Tabla();
-        void mostrarTabla() const;
 //        bool operator==(const Tabla&) const;
         Conj<Driver::Registro> registros() const;
         void agregarRegistro(const Driver::Registro&);
         void quitarRegistro(const Driver::Registro);
         void indexar(const NombreCampo);
-        NombreTabla nombre() const;
         Conj<NombreCampo> claves() const;
         Conj<NombreCampo> campos() const;
         Conj<NombreCampo> indices() const;
@@ -54,6 +53,9 @@ class Tabla {
         Dicc<Nat, Lista<tuplaIt> > dicNat() const;
         Dicc<String, Lista<tuplaIt> > dicString() const;
         NombreTabla nombreDeLaTabla() const;
+        bool tieneIndiceNat() const;
+        bool tieneIndiceString() const;
+        void mostrarTabla() const;
 
       private:
 
@@ -108,7 +110,7 @@ class Tabla {
 		}
 
         Tabla::Tabla(const NombreTabla& nombre, const Conj<Columna>& columnas, const Conj<NombreCampo>& claves) : 
-        nombreT(nombre), camposClave(claves), registrosT(Conj<Driver::Registro>()), 
+        nombreT(nombre), camposClave(Conj<NombreCampo>()), registrosT(Conj<Driver::Registro>()), 
         DicIndiceN(Dicc<Nat, Lista<tuplaIt> >()), CamIndiceN("null"), EstaIndiceN(false), 
         DicIndiceS(Dicc<String, Lista<tuplaIt> >()), CamIndiceS("null"), EstaIndiceS(false),
         minDatoNat(Driver::Dato(0)), minDatoString(Driver::Dato("null")), maxDatoNat(Driver::Dato(0)), maxDatoString(Driver::Dato("null")), 
@@ -126,6 +128,12 @@ class Tabla {
 
         		actual.Avanzar();
         		
+        	}
+
+        Conj<NombreCampo>::const_Iterador claIt = claves.CrearIt();
+        	while(claIt.HaySiguiente()){
+        		camposClave.AgregarRapido(claIt.Siguiente());
+        		claIt.Avanzar();
         	}
 
         //PERDON, ES UN ASCO, LO SE, PERO GCC ESTA EMPECINADO EN NO COMPILAR
@@ -164,8 +172,6 @@ class Tabla {
 
         
         Tabla::~Tabla() {}
-
-        void Tabla::mostrarTabla() const {}
         
 //        bool operator==(const Tabla&) const;
         
@@ -373,10 +379,6 @@ class Tabla {
                 //maxDatoString = min(DicIndiceS);      CUANDO ESTE LISTO TRIE
         	}
         }
-        
-        NombreTabla Tabla::nombre() const{
-            return nombreT;
-        }
 
         Conj<NombreCampo> Tabla::claves() const{
             return camposClave;
@@ -444,3 +446,92 @@ class Tabla {
         NombreTabla Tabla::nombreDeLaTabla() const{
         	return nombreT;
         }
+
+        bool Tabla::tieneIndiceNat() const{
+        	return EstaIndiceN;
+        }
+
+        bool Tabla::tieneIndiceString() const{
+        	return EstaIndiceS;
+        }
+
+        void mostrarReg(Driver::Registro reg){
+			Driver::Registro::Iterador pepe = reg.CrearIt();
+			cout << "** MUESTRO REGISTRO **" << endl;
+			int i = 1;
+			while(pepe.HaySiguiente()){
+				cout << i << ")";
+				cout << "    " << pepe.SiguienteClave() << ":";
+				if((pepe.SiguienteSignificado()).esNat()){
+					cout << "        " << (pepe.SiguienteSignificado()).dameNat() << endl;
+				}else{
+					cout << "        " <<(pepe.SiguienteSignificado()).dameString() << endl;
+				}
+				pepe.Avanzar();
+				i++;
+			}
+			cout << "     ** FIN **" << endl;
+		}
+
+        void Tabla::mostrarTabla() const {
+			cout << "** MUESTRO LA TABLA TITULADA " << nombreT << " **" << endl;
+			cout << "CANTIDAD DE ACCESOS: " << accesosT << endl;
+
+			Conj<NombreCampo>::const_Iterador camIt = camposT.CrearIt();
+
+			cout << "SUS CAMPOS SON: " << endl;
+			while(camIt.HaySiguiente()){
+			NombreCampo camp = camIt.Siguiente();
+			cout << camp;
+			camIt.Avanzar();
+				if(camIt.HaySiguiente()){
+				cout << " - ";
+				}
+			}
+			cout << endl;
+
+			Conj<NombreCampo>::const_Iterador claIt = camposClave.CrearIt();
+
+			cout << "DE ELLOS, SUS CAMPOS CLAVE SON: " << endl;
+
+			while(claIt.HaySiguiente()){
+			NombreCampo camp = claIt.Siguiente();
+			cout << camp;
+			claIt.Avanzar();
+				if(claIt.HaySiguiente()){
+				cout << " - ";
+				}
+			}
+
+			cout << endl;
+
+				if(!EstaIndiceN){
+					cout << "NO TIENE INDICE SOBRE NATURALES" << endl;
+				}else{
+					cout << "TIENE INDICE SOBRE NATURALES" << endl;		
+					cout << "SU CAMPO ES " << CamIndiceN << endl;
+					cout << "SU MAXIMO ES " << maxDatoNat.dameNat() << " Y SU MINIMO " << minDatoNat.dameNat() << endl;
+				}
+
+
+				if(!EstaIndiceS){
+					cout << "NO TIENE INDICE SOBRE STRING" << endl;
+				}else{
+					cout << "TIENE INDICE SOBRE STRING" << endl;		
+					cout << "SU CAMPO ES " << CamIndiceS << endl; 
+					cout << "SU MAXIMO ES " << maxDatoString.dameString() << " Y SU MINIMO " << minDatoString.dameString() << endl;		
+				}
+
+			    Conj<Driver::Registro>::const_Iterador regIt = registrosT.CrearIt();
+				
+			int j = 1;
+				while(regIt.HaySiguiente()){
+					cout << "  * REGISTRO Nro " << j << " *"<< endl;
+					Driver::Registro r = regIt.Siguiente();
+					mostrarReg(r);
+					regIt.Avanzar();
+				}    
+
+			cout << "** FIN DE LA TABLA " << nombreT << " **" << endl;
+		
+		}
