@@ -50,8 +50,7 @@ public:
 	NombreCampo campoJoin(const NombreTabla t1, const NombreTabla t2);
 	NombreTabla tablaMaxima(); //devuelve el nombre de la tabla con mayor acceso (tablaM)
 	Conj<Driver::Registro>& buscar(const Driver::Registro& crit, const NombreTabla t);
-
-	
+	void MostrarBaseDeDatos();
 
 
  private:

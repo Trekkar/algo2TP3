@@ -202,8 +202,7 @@ void BaseDeDatos::generarVistaJoin(const NombreTabla t1, const NombreTabla t2, c
 		Driver::Registro regvacio = Driver::Registro();
 		tuplaUnion tu = tuplaUnion(it1.Siguiente(), regvacio, v);
 
-		if (tc == STR)
-		{
+		if (tc == STR){
 			(tj->indiceS).Definir(((it1.Siguiente()).Significado(c)).dameString(), tu);
 		}else{
 			(tj->indiceN).Definir(((it1.Siguiente()).Significado(c)).dameNat(), tu);
@@ -467,6 +466,37 @@ Conj<Driver::Registro>& BaseDeDatos::buscar(const Driver::Registro& r, NombreTab
 		}
 
 	return (*res);
+};
+
+void BaseDeDatos::MostrarBaseDeDatos(){
+	cout << "**BIENVENIDO AL VISUALIZADOR DE BASE DE DATOS**" << endl;
+	cout << endl;
+	cout << "LAS TABLAS QUE EXISTENTES SON:" <<endl;
+	Conj<NombreTabla>::const_Iterador ITOBA = nTablas.CrearIt();
+	cout << "{" ;
+	while(ITOBA.HaySiguiente()){
+		
+   		cout << (ITOBA).Siguiente() << " " ;
+   		ITOBA.Avanzar();
+   }
+   		cout << "}" << endl;
+
+   		cout << endl;
+   		cout << endl;
+
+	Conj<NombreTabla>::const_Iterador ITAB = nTablas.CrearIt();
+
+  while(ITAB.HaySiguiente()){
+  		Tabla* t1 = (arbolTablas.Significado((ITAB).Siguiente())).tab;
+  		(*t1).mostrarTabla(); 
+  		ITAB.Avanzar();
+  		cout << endl;
+  		cout << endl;
+  		cout << endl;
+  }
+  cout << endl;
+  cout <<"LA TABLA MAXIMA ES: " <<  tablaM << endl;
+
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////MAIN
@@ -571,10 +601,10 @@ int main()
 
   
   Tabla& esta = b.dameTabla(b.tablaMaxima());
-  cout << esta.accesos() << endl;
+  //cout << esta.accesos() << endl;
   b.borrar(Rtres, nombre);
   b.borrar(Rdos, nombre);
-  cout << esta.accesos() << endl;
+  //cout << esta.accesos() << endl;
 
 
   NombreTabla name = "LaTablaTWO";
@@ -627,10 +657,14 @@ int main()
 
 
   b.agregarTabla(jose);
-  b.insertarEntrada(Runo, name);
-  b.insertarEntrada(Rdos, name);
-  b.insertarEntrada(Rtres, name);
-
+  b.insertarEntrada(R2uno, name);
+  b.insertarEntrada(R2dos, name);
+  b.insertarEntrada(R2tres, name);
+  b.borrar(R2tres, name);
+  b.insertarEntrada(R2tres, name);
+  b.borrar(R2tres, name);
+  b.insertarEntrada(R2tres, name);
+  b.borrar(R2tres, name);
 
 ///////////////////////////////////////////////////BORRAR REGISTROS:
   //pepito.quitarRegistro(Rdos);
@@ -639,18 +673,22 @@ int main()
 /////////////////////////////////////////////////////INDEX:
   esta.indexar("Waifu"); 
   esta.indexar("Edad");
-  cout << "LAS TABLAS QUE HAY SON: " << endl;
+  // cout << "LAS TABLAS QUE HAY SON: " << endl;
 
-  Conj<NombreTabla>::const_Iterador itob = b.tablas();
+  // Conj<NombreTabla>::const_Iterador itob = b.tablas();
 
-  while(itob.HaySiguiente()){
-  		cout << (itob).Siguiente() << endl;
-  		itob.Avanzar();
-  }
+  // while(itob.HaySiguiente()){
+  // 		cout << (itob).Siguiente() << endl;
+  // 		itob.Avanzar();
+  // }
 
-  cout <<"LA TABLA MAXIMA ES: " <<  b.tablaMaxima() << endl;
+  // cout <<"LA TABLA MAXIMA ES: " <<  b.tablaMaxima() << endl;
 
-  b.generarVistaJoin(nombre, name, dos);
+  // cout<< endl;
+
+  b.MostrarBaseDeDatos();
+  cout << "HAY JOIN? " << b.hayJoin(nombre, name) << endl;
+  //b.generarVistaJoin(nombre, name, dos);
 
 
 
