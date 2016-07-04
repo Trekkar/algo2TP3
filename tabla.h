@@ -48,10 +48,9 @@ class Tabla {
         Driver::Dato maximo(const NombreCampo) const;
         Nat accesos() const;
         Driver::Registro regCriterio() const;
+        Driver::Registro obtenerDeIndice(bool, const Nat, const String);
         NombreCampo campoDicNat() const;
         NombreCampo campoDicString() const;
-        Dicc<Nat, Lista<tuplaIt> > dicNat() const;
-        Dicc<String, Lista<tuplaIt> > dicString() const;
         NombreTabla nombreDeLaTabla() const;
         bool tieneIndiceNat() const;
         bool tieneIndiceString() const;
@@ -436,12 +435,16 @@ class Tabla {
             return CamIndiceS;
         }
         
-        Dicc<Nat, Lista<tuplaIt> > Tabla::dicNat() const{
-            return DicIndiceN;
-        }
-        
-        Dicc<String, Lista<tuplaIt> > Tabla::dicString() const{
-            return DicIndiceS;
+        Driver::Registro Tabla::obtenerDeIndice(bool indiceNat, const Nat n, const String s){
+            //true == indice nat
+            //false == indice string
+            if(indiceNat){
+                Lista<tuplaIt>::Iterador it = (DicIndiceN.Significado(n)).CrearIt();
+                return ((it.Siguiente()).CR()).Siguiente();
+            }else{
+                Lista<tuplaIt>::Iterador it = (DicIndiceS.Significado(s)).CrearIt();
+                return ((it.Siguiente()).CR()).Siguiente();
+            }
         }
 
         NombreTabla Tabla::nombreDeLaTabla() const{
