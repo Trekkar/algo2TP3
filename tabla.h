@@ -54,7 +54,7 @@ class Tabla {
         NombreTabla nombreDeLaTabla() const;
         bool tieneIndiceNat() const;
         bool tieneIndiceString() const;
-        void mostrarTabla() const;
+        void mostrarTabla();
 
       private:
 
@@ -477,6 +477,8 @@ class Tabla {
 			cout << "     ** FIN **" << endl;
 		}
 
+/*                      MOSTRAR INDICES, PERO USA ITERADOR A DICCIONARIO
+
         void mostrarIndiceN(Dicc<Nat, Lista<tuplaIt> > indice){
             Dicc<Nat, Lista<tuplaIt> >::Iterador pepe = indice.CrearIt();
             cout << "**** MUESTRO INDICE NAT ****" << endl;
@@ -528,12 +530,60 @@ class Tabla {
             }
             cout << "      **** FIN ****" << endl;
         }
+*/
+//                 MOSTRAR INDICES SIN USAR ITERADOR A DICCIONARIO   
 
-        //Dicc<Nat, Lista<tuplaIt> > DicIndiceN; 
-        //Dicc<String, Lista<tuplaIt> > DicIndiceS; 
-        //void mostrarIndiceN(Driver::)
+void mostrarIndiceN(NombreCampo c, Conj<Driver::Registro>::Iterador itRegistros, Dicc<Nat, Lista<tuplaIt> >& DicIndiceN){
+            cout << "**** MUESTRO INDICE NAT ****" << endl;
+            int i = 1;
+            while(itRegistros.HaySiguiente()){
+                cout << i << ")";
+                cout << "CLAVE '" << ((itRegistros.Siguiente()).Significado(c)).dameNat() << "' APUNTA A REGISTRO/S:" << endl;
+                Lista<tuplaIt>::Iterador it = (DicIndiceN.Significado(((itRegistros.Siguiente()).Significado(c)).dameNat())).CrearIt();
+                    int j = 1;
+                    while(it.HaySiguiente()){
+                        cout << "   MUESTRO PARA " << i << ") EL NUMERO " << j << ")" << endl;
+                        mostrarReg(((it.Siguiente()).CR()).Siguiente());
+                            if(((it.Siguiente()).OA()).HaySiguiente()){
+                                cout << "(APUNTA A OTRO ARBOL)" << endl;
+                            }else{
+                                cout << "(NO APUNTA A OTRO ARBOL)" << endl;
+                            }
+                        it.Avanzar();
+                        j++;
+                        }
+                itRegistros.Avanzar();
+                i++;
+            }
+            cout << "      **** FIN ****" << endl;
+        }
 
-        void Tabla::mostrarTabla() const {
+        void mostrarIndiceS(NombreCampo c, Conj<Driver::Registro>::Iterador itRegistros, Dicc<String, Lista<tuplaIt> >& DicIndiceS){
+            cout << "**** MUESTRO INDICE STRING ****" << endl;
+            int i = 1;
+            while(itRegistros.HaySiguiente()){
+                cout << i << ")";
+                cout << "CLAVE '" << ((itRegistros.Siguiente()).Significado(c)).dameString() << "' APUNTA A REGISTRO/S:" << endl;
+                Lista<tuplaIt>::Iterador it = (DicIndiceS.Significado(((itRegistros.Siguiente()).Significado(c)).dameString())).CrearIt();
+                    int j = 1;
+                    while(it.HaySiguiente()){
+                        cout << "   MUESTRO PARA " << i << ") EL NUMERO " << j << ")" << endl;
+                        mostrarReg(((it.Siguiente()).CR()).Siguiente());
+                            if(((it.Siguiente()).OA()).HaySiguiente()){
+                                cout << "(APUNTA A OTRO ARBOL)" << endl;
+                            }else{
+                                cout << "(NO APUNTA A OTRO ARBOL)" << endl;
+                            }
+                        it.Avanzar();
+                        j++;
+                        }
+                itRegistros.Avanzar();
+                i++;
+            }
+            cout << "      **** FIN ****" << endl;
+        }
+
+        void Tabla::mostrarTabla() {
 			cout << "** MUESTRO LA TABLA TITULADA " << nombreT << " **" << endl;
 			cout << "CANTIDAD DE ACCESOS: " << accesosT << endl;
 
@@ -573,7 +623,8 @@ class Tabla {
 					cout << "SU CAMPO ES " << CamIndiceN << endl;
 					cout << "SU MAXIMO ES " << maxDatoNat.dameNat() << " Y SU MINIMO " << minDatoNat.dameNat() << endl;
                     cout << "EL INDICE SOBRE NATURALES ES DE LA FORMA: " << endl;
-                    mostrarIndiceN(DicIndiceN);
+                    Conj<Driver::Registro>::Iterador iteradorDeRegistrosN = registrosT.CrearIt();
+                    mostrarIndiceN(CamIndiceN, iteradorDeRegistrosN, DicIndiceN);
 				}
 
             cout << endl;
@@ -586,7 +637,8 @@ class Tabla {
 					cout << "SU CAMPO ES " << CamIndiceS << endl; 
 					cout << "SU MAXIMO ES " << maxDatoString.dameString() << " Y SU MINIMO " << minDatoString.dameString() << endl;		
                     cout << "EL INDICE SOBRE STRING ES DE LA FORMA: " << endl;
-                    mostrarIndiceS(DicIndiceS);
+                    Conj<Driver::Registro>::Iterador iteradorDeRegistrosS = registrosT.CrearIt();
+                    mostrarIndiceS(CamIndiceS, iteradorDeRegistrosS, DicIndiceS);
 				}
 
             cout << endl;

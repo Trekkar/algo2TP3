@@ -119,7 +119,7 @@ cout << endl;
 cout << endl;
 
   pepito.quitarRegistro(Rdos);
-  pepito.quitarRegistro(Rcuatro);
+  pepito.quitarRegistro(Rtres);
   pepito.mostrarTabla();
   cout << "termina" << endl;
   return 0;
