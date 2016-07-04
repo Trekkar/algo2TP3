@@ -501,7 +501,7 @@ int main()
   claves.Agregar(dos);
 
 //////////////////////////////////////////////////Tabla
-  NombreTabla nombre = "Amores imposibles";
+  NombreTabla nombre = "LaTablaONE";
 	  Tabla pepito = Tabla(nombre,columna,claves);
 	 // NombreTabla a = pepito.nombreDeLaTabla();
 
@@ -577,7 +577,7 @@ int main()
   cout << esta.accesos() << endl;
 
 
-  NombreTabla name = "Amores un poco mas reales";
+  NombreTabla name = "LaTablaTWO";
   Tabla jose = Tabla(name,columna,claves);
 
    ////////////////////////////////////////////////REGISTRO 1:
@@ -613,15 +613,14 @@ int main()
   Driver::Dato D2tresc = Driver::Dato("Aiko");
   R2tres.Definir(tres,D2tresc);
 
-  cout << "LAS TABLAS QUE HAY SON: " << endl;
+  // cout << "LAS TABLAS QUE HAY SON: " << endl;
 
-  Conj<NombreTabla>::const_Iterador itab = b.tablas();
+  // Conj<NombreTabla>::const_Iterador itab = b.tablas();
 
-  while(itab.HaySiguiente()){
-  		cout << (b.tablas()).Siguiente() << endl;
-  		itab.Avanzar();
-
-  }
+  // while(itab.HaySiguiente()){
+  // 		cout << (itab).Siguiente() << endl;
+  // 		itab.Avanzar();
+  // }
 
 
 
@@ -645,11 +644,15 @@ int main()
   Conj<NombreTabla>::const_Iterador itob = b.tablas();
 
   while(itob.HaySiguiente()){
-  		cout << (b.tablas()).Siguiente() << endl;
+  		cout << (itob).Siguiente() << endl;
   		itob.Avanzar();
   }
 
   cout <<"LA TABLA MAXIMA ES: " <<  b.tablaMaxima() << endl;
+
+  b.generarVistaJoin(nombre, name, dos);
+
+
 
   //cout<< "CHECKPOINT" << endl;
 /////////////////////////////////////////////////MUESTRO TABLA:
