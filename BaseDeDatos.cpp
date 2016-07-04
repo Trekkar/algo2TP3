@@ -83,7 +83,7 @@ BaseDeDatos::tuplaJoin::tuplaJoin(NombreCampo c, TipoCampo t, Conj<NombreTabla>:
  }
 
 
-BaseDeDatos::tuplaUnion::tuplaUnion(Driver::Registro r1, Driver::Registro r2, Conj<Driver::Registro>::const_Iterador i){
+BaseDeDatos::tuplaUnion::tuplaUnion(Driver::Registro r1, Driver::Registro r2, Conj<Driver::Registro>::Iterador i){
 		registroTablaUno = r1;
 		registroTablaDos = r2;
 		registroJoin = i;
@@ -177,7 +177,7 @@ void BaseDeDatos::generarVistaJoin(const NombreTabla t1, const NombreTabla t2, c
 	// Dicc<String, tuplaUnion> indiceS;
 	// Dicc<Nat, tuplaUnion> indiceN;
 
-	Conj<Driver::Registro>::const_Iterador v = vacio.CrearIt();
+	Conj<Driver::Registro>::Iterador v = vacio.CrearIt();
 	while(it1.HaySiguiente()){
 		Driver::Registro regvacio = Driver::Registro();
 		tuplaUnion tu = tuplaUnion(it1.Siguiente(), regvacio, v);
@@ -197,7 +197,7 @@ void BaseDeDatos::generarVistaJoin(const NombreTabla t1, const NombreTabla t2, c
 			if((tj->indiceS).Definido(((it2.Siguiente()).Significado(c)).dameString())){
 				((tj->indiceS).Significado(((it2.Siguiente()).Significado(c)).dameString())).registroTablaDos = it2.Siguiente();
 				Driver::Registro registroUnido = unirRegistros(((tj->indiceS).Significado(((it2.Siguiente()).Significado(c)).dameString())).registroTablaUno, it2.Siguiente());
-				Conj<Driver::Registro>::const_Iterador iteradorJoin = (tj->vistaJoin).AgregarRapido(registroUnido);	
+				Conj<Driver::Registro>::Iterador iteradorJoin = (tj->vistaJoin).AgregarRapido(registroUnido);	
 				((tj->indiceS).Significado(((it2.Siguiente()).Significado(c)).dameString())).registroJoin = iteradorJoin;
 			}else{
 				Driver::Registro regvacio = Driver::Registro();
@@ -210,7 +210,7 @@ void BaseDeDatos::generarVistaJoin(const NombreTabla t1, const NombreTabla t2, c
 			if((tj->indiceN).Definido(((it2.Siguiente()).Significado(c)).dameNat())){
 				((tj->indiceN).Significado(((it2.Siguiente()).Significado(c)).dameNat())).registroTablaDos = it2.Siguiente();
 				Driver::Registro registroUnido = unirRegistros(((tj->indiceN).Significado(((it2.Siguiente()).Significado(c)).dameNat())).registroTablaUno, it2.Siguiente());
-				Conj<Driver::Registro>::const_Iterador iteradorJoin = (tj->vistaJoin).AgregarRapido(registroUnido);	
+				Conj<Driver::Registro>::Iterador iteradorJoin = (tj->vistaJoin).AgregarRapido(registroUnido);	
 				((tj->indiceN).Significado(((it2.Siguiente()).Significado(c)).dameNat())).registroJoin = iteradorJoin;
 			}else{
 				Driver::Registro regvacio = Driver::Registro();

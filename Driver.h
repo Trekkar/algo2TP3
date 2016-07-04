@@ -5,6 +5,7 @@
 #include "aed2/Conj.h"
 #include "aed2/TiposBasicos.h"
 
+
 namespace aed2
 {
 
@@ -242,6 +243,7 @@ class Driver
 
   private:
 
+  //	BaseDeDatos b;
     /************************************************************************
      * TODO: Va a ser necesario instanciar privadamente el Modulo principal *
      * con el cuál interactuar. Además, pueden declarar todas las           *

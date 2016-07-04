@@ -69,9 +69,9 @@ public:
 	struct tuplaUnion{
 		Driver::Registro registroTablaUno;
 		Driver::Registro registroTablaDos;
-		Conj<Driver::Registro>::const_Iterador registroJoin;
+		Conj<Driver::Registro>::Iterador registroJoin;
 
-		tuplaUnion(Driver::Registro r1, Driver::Registro r2, Conj<Driver::Registro>::const_Iterador i);
+		tuplaUnion(Driver::Registro r1, Driver::Registro r2, Conj<Driver::Registro>::Iterador i);
 	};
 
 	
