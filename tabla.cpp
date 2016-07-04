@@ -77,7 +77,7 @@ int main(){
   Driver::Dato Ddosd = Driver::Dato(20);
   Rcuatro.Definir(dos,Ddosd);    
 
-  Driver::Dato Dtresd = Driver::Dato("Shitsu");
+  Driver::Dato Dtresd = Driver::Dato("Yuno");
   Rcuatro.Definir(tres,Dtresd);
 
   ////////////////////////////////////////////////REGISTRO 5:
@@ -85,7 +85,7 @@ int main(){
   Driver::Dato Dunoe = Driver::Dato("Ian");
   Rcinco.Definir(uno,Dunoe);
 
-  Driver::Dato Ddose = Driver::Dato(18);
+  Driver::Dato Ddose = Driver::Dato(20);
   Rcinco.Definir(dos,Ddose);    
 
   Driver::Dato Dtrese = Driver::Dato("Misa");
@@ -111,6 +111,16 @@ int main(){
 /////////////////////////////////////////////////MUESTRO TABLA:
   pepito.mostrarTabla();
 
+
+cout << endl;
+cout << endl;
+cout<< "CHECKPOINT" << endl;
+cout << endl;
+cout << endl;
+
+  pepito.quitarRegistro(Rdos);
+  pepito.quitarRegistro(Rcuatro);
+  pepito.mostrarTabla();
   cout << "termina" << endl;
   return 0;
 
