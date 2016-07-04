@@ -610,10 +610,10 @@ int main()
   Driver::Dato D2dosc = Driver::Dato(17);
   R2tres.Definir(dos,D2dosc);   
 
-  Driver::Dato D2tresc = Driver::Dato("tuMama");
+  Driver::Dato D2tresc = Driver::Dato("Aiko");
   R2tres.Definir(tres,D2tresc);
 
-cout << "LAS TABLAS QUE HAY SON: " << endl;
+  cout << "LAS TABLAS QUE HAY SON: " << endl;
 
   Conj<NombreTabla>::const_Iterador itab = b.tablas();
 
@@ -647,7 +647,6 @@ cout << "LAS TABLAS QUE HAY SON: " << endl;
   while(itob.HaySiguiente()){
   		cout << (b.tablas()).Siguiente() << endl;
   		itob.Avanzar();
-
   }
 
   cout <<"LA TABLA MAXIMA ES: " <<  b.tablaMaxima() << endl;
