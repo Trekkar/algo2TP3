@@ -520,11 +520,32 @@ void BaseDeDatos::MostrarBaseDeDatos(){
 
   while(ITAB.HaySiguiente()){
   		Tabla* t1 = (arbolTablas.Significado((ITAB).Siguiente())).tab;
-  		(*t1).mostrarTabla(); 
+  		(*t1).mostrarTabla();
+		cout << endl;
+  		cout << endl;
+
+  		Conj<NombreTabla> hizoJoinCon = (arbolTablas.Significado((*t1).nombreDeLaTabla())).nombresJoins;
+  		Conj<NombreTabla>::Iterador itHizoJoinCon = hizoJoinCon.CrearIt();
+
+  		if(itHizoJoinCon.HaySiguiente()){
+			cout << "HIZO JOINS CON: " << endl;
+			while(itHizoJoinCon.HaySiguiente()){
+				cout << itHizoJoinCon.Siguiente() << " SOBRE EL CAMPO ";
+				NombreCampo campoDelJoin = (*((((arbolTablas.Significado((*t1).nombreDeLaTabla())).dicJoin).Significado(itHizoJoinCon.Siguiente())).p)).cJoin;
+
+				cout << campoDelJoin << endl;
+				itHizoJoinCon.Avanzar();
+			}
+
+  		}else{
+  			cout << "NO HIZO JOINS" << endl;
+  		}
+  		
+
+  		cout << endl;
+  		cout << endl;
+  		cout << endl;
   		ITAB.Avanzar();
-  		cout << endl;
-  		cout << endl;
-  		cout << endl;
   }
   cout << endl;
   cout <<"LA TABLA MAXIMA ES: " <<  tablaM << endl;
@@ -725,8 +746,15 @@ int main()
 
   b.vistaJoin(nombre,name);
 
+	cout << endl;
+  	cout << endl;
+  	cout<< "CHECKPOINT" << endl;
+ 	cout << endl;
+ 	cout << endl;
 
-  //cout<< "CHECKPOINT" << endl;
+  b.MostrarBaseDeDatos();
+
+
 /////////////////////////////////////////////////MUESTRO TABLA:
   //pepito.mostrarTabla();
 
