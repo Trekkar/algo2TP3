@@ -10,7 +10,7 @@ namespace aed2
     template<class K, class S>
     class DicNat
     {
-    
+
     public:
 
     DicNat();
@@ -20,8 +20,8 @@ namespace aed2
     S& Significado(const K& clave) const;
     void Borrar(const K& clave);
     bool Vacio() const;
-    const S& Max() const;
-    const S& Min() const;
+    const K& Max() const;
+    const K& Min() const;
     Nat CantClaves() const;
 
 
@@ -285,7 +285,7 @@ bool DicNat<K,S>::Vacio() const{
 }
 
 template<class K, class S>
-const S& DicNat<K,S>::Max()const{
+const K& DicNat<K,S>::Max()const{
 
         nodo* actual = this->prim;
 
@@ -293,11 +293,11 @@ const S& DicNat<K,S>::Max()const{
                         actual=actual->der;
                     }
 
-    return actual->significado;
+    return actual->clave;
 }
 
 template<class K, class S>
-const S& DicNat<K,S>::Min()const{
+const K& DicNat<K,S>::Min()const{
 
         nodo* actual = this->prim;
 
@@ -305,7 +305,7 @@ const S& DicNat<K,S>::Min()const{
                         actual=actual->izq;
                     }
 
-    return actual->significado;
+    return actual->clave;
 }
 
 template<class K, class S>

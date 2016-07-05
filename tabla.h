@@ -1,6 +1,8 @@
     #include <iostream>
     #include "Tipos.h"
     #include "aed2/Dicc.h"
+    #include "DicNat.h"         //ABB INCLUIDO
+    #include "DicString.h"      //TRIE INCLUIDO
     #include "aed2/Lista.h"
     #include "aed2/TiposBasicos.h"
     #include "aed2/Conj.h"
@@ -70,10 +72,10 @@ class Tabla {
         Conj<NombreCampo> camposT;                                //campos: CONJ(CAMPO)
         Conj<NombreCampo> camposClave;                            //camposClave: CONJ(CAMPO)
         Conj<Driver::Registro> registrosT;                        //Driver::Registros: CONJ(Driver::Registro)
-        Dicc<Nat, Lista<tuplaIt> > DicIndiceN;                    //DicIndiceN: DICCIONARIO(NAT,CONJ(tuplaIt))
+        DicNat<Nat, Lista<tuplaIt> > DicIndiceN;                    //DicIndiceN: DICCIONARIO(NAT,CONJ(tuplaIt))
         NombreCampo CamIndiceN;                                   //CamIndiceN: STRING
         bool EstaIndiceN;                                         //EstaIndiceN: BOOL
-        Dicc<String, Lista<tuplaIt> > DicIndiceS;                 //DicIndiceS: DICCIONARIO(STRING,CONJ(tuplaIt))
+        DicString<String, Lista<tuplaIt> > DicIndiceS;                 //DicIndiceS: DICCIONARIO(STRING,CONJ(tuplaIt))
         NombreCampo CamIndiceS;                                   //CamIndiceS: STRING
         bool EstaIndiceS;                                         //EstaIndiceS: BOOL
         Driver::Dato minDatoNat;                                  //minDriver::DatoNat: Driver::Dato
@@ -214,6 +216,9 @@ class Tabla {
                 }
 
                 Agregar((DicIndiceS.Significado((r.Significado(CamIndiceS)).dameString())), tupla);
+                minDatoString = DicIndiceS.MinClave();    // CUANDO ESTE LISTO TRIE
+-               maxDatoString = DicIndiceS.MaxClave();      //CUANDO ESTE LISTO TRIE
+
                 //minDatoString = max(DicIndiceS);      CUANDO ESTE LISTO TRIE
                 //maxDatoString = min(DicIndiceS);      CUANDO ESTE LISTO TRIE
                 //TENGO QUE HACER DELETE DE TUPLAIT? CONJ LO COPIA O LO AGREGA DIRECTO?
@@ -227,6 +232,9 @@ class Tabla {
                 }
 
                 Agregar((DicIndiceN.Significado((r.Significado(CamIndiceN)).dameNat())), tupla);
+                minDatoNat = DicIndiceN.Min();
+-               maxDatoNat = DicIndiceN.Max();
+
                 //minDatoNat = max(DicIndiceN);     CUANDO ESTE LISTO ABB
                 //maxDatoNat = min(DicIndiceN);     CUANDO ESTE LISTO ABB
             }
@@ -253,6 +261,13 @@ class Tabla {
                 //OJO, ESTOY ASUMIENDO QUE SI AGREGO UN ELEMENTO A UN CONJUNTO Y LE PREGUNTO "SIGUIENTE"
                 //AL ITERADOR QUE ME DEVUELVE, ME VA A DEVOLVER EL ELEMENTO QUE ACABO DE AGREGAR
 
+                 minDatoNat = DicIndiceN.Min();
+-                maxDatoNat = DicIndiceN.Max();
+-                minDatoString = DicIndiceS.MinClave();     // CUANDO ESTE LISTO TRIE
+-                maxDatoString = DicIndiceS.MaxClave();     //CUANDO ESTE LISTO TRIE
+
+
+
                 //minDatoNat = max(DicIndiceN);     CUANDO ESTE LISTO ABB
                 //maxDatoNat = min(DicIndiceN);     CUANDO ESTE LISTO ABB
                 //minDatoString = max(DicIndiceS);      CUANDO ESTE LISTO TRIE
@@ -270,11 +285,16 @@ class Tabla {
         			}
         		if(((it.Siguiente()).OA()).HaySiguiente()){
         		((it.Siguiente()).OA()).EliminarSiguiente();
+                minDatoString = DicIndiceS.MinClave();    
+-               maxDatoString = DicIndiceS.MaxClave();
+
                 //minDatoString = max(DicIndiceS);      CUANDO ESTE LISTO TRIE
                 //maxDatoString = min(DicIndiceS);      CUANDO ESTE LISTO TRIE
         		}
         		((it.Siguiente()).CR()).EliminarSiguiente();
         		it.EliminarSiguiente();
+                minDatoNat = DicIndiceN.Min();
+-               maxDatoNat = DicIndiceN.Max();
                 //minDatoNat = max(DicIndiceN);     CUANDO ESTE LISTO ABB
                 //maxDatoNat = min(DicIndiceN);     CUANDO ESTE LISTO ABB
         	}else{
@@ -286,6 +306,8 @@ class Tabla {
         			}
         			((it.Siguiente()).CR()).EliminarSiguiente();
         			it.EliminarSiguiente();
+                minDatoString = DicIndiceS.MinClave();    //  CUANDO ESTE LISTO TRIE
+-               maxDatoString = DicIndiceS.MaxClave();     
                 //minDatoString = max(DicIndiceS);      CUANDO ESTE LISTO TRIE
                 //maxDatoString = min(DicIndiceS);      CUANDO ESTE LISTO TRIE
         		}else{
@@ -337,6 +359,8 @@ class Tabla {
         		}
                 EstaIndiceN = true;
         		CamIndiceN = c;
+                minDatoNat = DicIndiceN.Min();
+-               maxDatoNat = DicIndiceN.Max();
         		//minDatoNat = max(DicIndiceN);     CUANDO ESTE LISTO ABB
                 //maxDatoNat = min(DicIndiceN);     CUANDO ESTE LISTO ABB
         	}else{
@@ -375,6 +399,8 @@ class Tabla {
         		}
                 EstaIndiceS = true;
         		CamIndiceS = c;
+                minDatoString = DicIndiceS.MinClave();     // CUANDO ESTE LISTO TRIE
+-               maxDatoString = DicIndiceS.MaxClave();     //CUANDO ESTE LISTO TRIE
         		//minDatoString = max(DicIndiceS);      CUANDO ESTE LISTO TRIE
                 //maxDatoString = min(DicIndiceS);      CUANDO ESTE LISTO TRIE
         	}
@@ -440,7 +466,7 @@ class Tabla {
             //true == indice nat
             //false == indice string
             if(indiceNat){
-            	cout << "ACA NAT" << endl;
+            //	cout << "ACA NAT" << endl;
                 Lista<tuplaIt> hola = (DicIndiceN.Significado(n));
                 Lista<tuplaIt>::Iterador it = hola.CrearIt();
                 while(it.HaySiguiente()){
@@ -448,11 +474,11 @@ class Tabla {
                 	it.Avanzar();
                 }
             }else{
-            	cout << "ACA STRING" << endl;
+            //	cout << "ACA STRING" << endl;
                 Lista<tuplaIt> chau = (DicIndiceS.Significado(s));
-                cout << "ACA STRING SALE" << endl;
+              //  cout << "ACA STRING SALE" << endl;
                 Lista<tuplaIt>::Iterador it = chau.CrearIt();
-                cout << "ACA STRING SALE2" << endl;
+                //cout << "ACA STRING SALE2" << endl;
                 while(it.HaySiguiente()){
                 	res.AgregarRapido(((it.Siguiente()).CR()).Siguiente());
                 	it.Avanzar();
