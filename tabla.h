@@ -13,11 +13,11 @@
 
 
 	class tuplaIt {
-        
+
         public:
         tuplaIt();
         tuplaIt(Conj<Driver::Registro>::Iterador c, Lista<tuplaIt>::Iterador o);
-        
+
         void cambiarCR(Conj<Driver::Registro>::Iterador c);
         void cambiarOA(Lista<tuplaIt>::Iterador o);
 		Conj<Driver::Registro>::Iterador CR();
@@ -75,7 +75,7 @@ class Tabla {
         DicNat<Nat, Lista<tuplaIt> > DicIndiceN;                    //DicIndiceN: DICCIONARIO(NAT,CONJ(tuplaIt))
         NombreCampo CamIndiceN;                                   //CamIndiceN: STRING
         bool EstaIndiceN;                                         //EstaIndiceN: BOOL
-        DicString<String, Lista<tuplaIt> > DicIndiceS;                 //DicIndiceS: DICCIONARIO(STRING,CONJ(tuplaIt))
+        DicString< Lista<tuplaIt> > DicIndiceS;                 //DicIndiceS: DICCIONARIO(STRING,CONJ(tuplaIt))
         NombreCampo CamIndiceS;                                   //CamIndiceS: STRING
         bool EstaIndiceS;                                         //EstaIndiceS: BOOL
         Driver::Dato minDatoNat;                                  //minDriver::DatoNat: Driver::Dato
@@ -92,14 +92,14 @@ class Tabla {
 
     	tuplaIt::tuplaIt() {}
 
-        tuplaIt::tuplaIt(Conj<Driver::Registro>::Iterador c, Lista<tuplaIt>::Iterador o) : cr(c), oa(o) {} 
+        tuplaIt::tuplaIt(Conj<Driver::Registro>::Iterador c, Lista<tuplaIt>::Iterador o) : cr(c), oa(o) {}
 
         void tuplaIt::cambiarCR(Conj<Driver::Registro>::Iterador c){
         	cr = c;
         }
 
         void tuplaIt::cambiarOA(Lista<tuplaIt>::Iterador o){
-        	oa = o;    
+        	oa = o;
         }
 
         Conj<Driver::Registro>::Iterador tuplaIt::CR(){
@@ -110,11 +110,11 @@ class Tabla {
 			return oa;
 		}
 
-        Tabla::Tabla(const NombreTabla& nombre, const Conj<Columna>& columnas, const Conj<NombreCampo>& claves) : 
-        nombreT(nombre), camposClave(Conj<NombreCampo>()), registrosT(Conj<Driver::Registro>()), 
-        DicIndiceN(Dicc<Nat, Lista<tuplaIt> >()), CamIndiceN("null"), EstaIndiceN(false), 
-        DicIndiceS(Dicc<String, Lista<tuplaIt> >()), CamIndiceS("null"), EstaIndiceS(false),
-        minDatoNat(Driver::Dato(0)), minDatoString(Driver::Dato("null")), maxDatoNat(Driver::Dato(0)), maxDatoString(Driver::Dato("null")), 
+        Tabla::Tabla(const NombreTabla& nombre, const Conj<Columna>& columnas, const Conj<NombreCampo>& claves) :
+        nombreT(nombre), camposClave(Conj<NombreCampo>()), registrosT(Conj<Driver::Registro>()),
+        DicIndiceN(DicNat<Nat, Lista<tuplaIt> >()), CamIndiceN("null"), EstaIndiceN(false),
+        DicIndiceS(DicString< Lista<tuplaIt> >()), CamIndiceS("null"), EstaIndiceS(false),
+        minDatoNat(Driver::Dato(0)), minDatoString(Driver::Dato("null")), maxDatoNat(Driver::Dato(0)), maxDatoString(Driver::Dato("null")),
         accesosT(0), Vacio(Lista<tuplaIt>()) {
 
         Conj<Columna>::const_Iterador actual = columnas.CrearIt();
@@ -128,7 +128,7 @@ class Tabla {
         		}
 
         		actual.Avanzar();
-        		
+
         	}
 
         Conj<NombreCampo>::const_Iterador claIt = claves.CrearIt();
@@ -171,11 +171,11 @@ class Tabla {
 
 
 
-        
+
         Tabla::~Tabla() {}
-        
+
 //        bool operator==(const Tabla&) const;
-        
+
         Conj<Driver::Registro> Tabla::registros() const {
             return registrosT;
         }
@@ -202,7 +202,7 @@ class Tabla {
         	return true;
 
         }
-        
+
         void Tabla::agregarRegistro(const Driver::Registro& r) {
             accesosT++;
             Conj<Driver::Registro>::Iterador it = registrosT.Agregar(r);
@@ -217,7 +217,7 @@ class Tabla {
 
                 Agregar((DicIndiceS.Significado((r.Significado(CamIndiceS)).dameString())), tupla);
                 minDatoString = DicIndiceS.MinClave();    // CUANDO ESTE LISTO TRIE
-               maxDatoString = DicIndiceS.MaxClave();      //CUANDO ESTE LISTO TRIE
+                maxDatoString = DicIndiceS.MaxClave();      //CUANDO ESTE LISTO TRIE
 
                 //minDatoString = max(DicIndiceS);      CUANDO ESTE LISTO TRIE
                 //maxDatoString = min(DicIndiceS);      CUANDO ESTE LISTO TRIE
@@ -233,7 +233,7 @@ class Tabla {
 
                 Agregar((DicIndiceN.Significado((r.Significado(CamIndiceN)).dameNat())), tupla);
                 minDatoNat = DicIndiceN.Min();
-               maxDatoNat = DicIndiceN.Max();
+                maxDatoNat = DicIndiceN.Max();
 
                 //minDatoNat = max(DicIndiceN);     CUANDO ESTE LISTO ABB
                 //maxDatoNat = min(DicIndiceN);     CUANDO ESTE LISTO ABB
@@ -262,9 +262,9 @@ class Tabla {
                 //AL ITERADOR QUE ME DEVUELVE, ME VA A DEVOLVER EL ELEMENTO QUE ACABO DE AGREGAR
 
                  minDatoNat = DicIndiceN.Min();
-                maxDatoNat = DicIndiceN.Max();
-                minDatoString = DicIndiceS.MinClave();     // CUANDO ESTE LISTO TRIE
-                maxDatoString = DicIndiceS.MaxClave();     //CUANDO ESTE LISTO TRIE
+                 maxDatoNat = DicIndiceN.Max();
+                 minDatoString = DicIndiceS.MinClave();     // CUANDO ESTE LISTO TRIE
+                 maxDatoString = DicIndiceS.MaxClave();     //CUANDO ESTE LISTO TRIE
 
 
 
@@ -274,7 +274,7 @@ class Tabla {
                 //maxDatoString = min(DicIndiceS);      CUANDO ESTE LISTO TRIE
             }
         }
-        
+
         void Tabla::quitarRegistro(const Driver::Registro r) {
         	accesosT++;
         	if(EstaIndiceN){
@@ -285,8 +285,8 @@ class Tabla {
         			}
         		if(((it.Siguiente()).OA()).HaySiguiente()){
         		((it.Siguiente()).OA()).EliminarSiguiente();
-                minDatoString = DicIndiceS.MinClave();    
-               maxDatoString = DicIndiceS.MaxClave();
+                minDatoString = DicIndiceS.MinClave();
+                maxDatoString = DicIndiceS.MaxClave();
 
                 //minDatoString = max(DicIndiceS);      CUANDO ESTE LISTO TRIE
                 //maxDatoString = min(DicIndiceS);      CUANDO ESTE LISTO TRIE
@@ -294,7 +294,7 @@ class Tabla {
         		((it.Siguiente()).CR()).EliminarSiguiente();
         		it.EliminarSiguiente();
                 minDatoNat = DicIndiceN.Min();
-               maxDatoNat = DicIndiceN.Max();
+                maxDatoNat = DicIndiceN.Max();
                 //minDatoNat = max(DicIndiceN);     CUANDO ESTE LISTO ABB
                 //maxDatoNat = min(DicIndiceN);     CUANDO ESTE LISTO ABB
         	}else{
@@ -307,7 +307,7 @@ class Tabla {
         			((it.Siguiente()).CR()).EliminarSiguiente();
         			it.EliminarSiguiente();
                 minDatoString = DicIndiceS.MinClave();    //  CUANDO ESTE LISTO TRIE
-               maxDatoString = DicIndiceS.MaxClave();     
+                maxDatoString = DicIndiceS.MaxClave();
                 //minDatoString = max(DicIndiceS);      CUANDO ESTE LISTO TRIE
                 //maxDatoString = min(DicIndiceS);      CUANDO ESTE LISTO TRIE
         		}else{
@@ -319,7 +319,7 @@ class Tabla {
         		}
         	}
         }
-        
+
 
         void Tabla::indexar(const NombreCampo c) {
         	Conj<Driver::Registro>::Iterador it = registrosT.CrearIt();
@@ -342,7 +342,7 @@ class Tabla {
         			while(it.HaySiguiente()){
         				Nat actual = ((it.Siguiente()).Significado(c)).dameNat();
         				String vecino = ((it.Siguiente()).Significado(CamIndiceS)).dameString();
-        				Lista<tuplaIt>::Iterador vecinoIt = (DicIndiceS.Significado(vecino)).CrearIt();	
+        				Lista<tuplaIt>::Iterador vecinoIt = (DicIndiceS.Significado(vecino)).CrearIt();
         					while(!registrosIguales(((vecinoIt.Siguiente()).CR()).Siguiente(),it.Siguiente())){
         						vecinoIt.Avanzar();
         					}
@@ -360,9 +360,8 @@ class Tabla {
                 EstaIndiceN = true;
         		CamIndiceN = c;
                 minDatoNat = DicIndiceN.Min();
-               maxDatoNat = DicIndiceN.Max();
-        		//minDatoNat = max(DicIndiceN);     CUANDO ESTE LISTO ABB
-                //maxDatoNat = min(DicIndiceN);     CUANDO ESTE LISTO ABB
+                maxDatoNat = DicIndiceN.Max();
+
         	}else{
 
         		if(!EstaIndiceN){
@@ -378,11 +377,11 @@ class Tabla {
         				it.Avanzar();
         			}
         		}else{
-				
+
 						while(it.HaySiguiente()){
         				String actual = ((it.Siguiente()).Significado(c)).dameString();
         				Nat vecino = ((it.Siguiente()).Significado(CamIndiceN)).dameNat();
-        				Lista<tuplaIt>::Iterador vecinoIt = (DicIndiceN.Significado(vecino)).CrearIt();	
+        				Lista<tuplaIt>::Iterador vecinoIt = (DicIndiceN.Significado(vecino)).CrearIt();
         					while(!registrosIguales(((vecinoIt.Siguiente()).CR()).Siguiente(),it.Siguiente())){
         						vecinoIt.Avanzar();
         					}
@@ -400,7 +399,7 @@ class Tabla {
                 EstaIndiceS = true;
         		CamIndiceS = c;
                 minDatoString = DicIndiceS.MinClave();     // CUANDO ESTE LISTO TRIE
-               maxDatoString = DicIndiceS.MaxClave();     //CUANDO ESTE LISTO TRIE
+                maxDatoString = DicIndiceS.MaxClave();     //CUANDO ESTE LISTO TRIE
         		//minDatoString = max(DicIndiceS);      CUANDO ESTE LISTO TRIE
                 //maxDatoString = min(DicIndiceS);      CUANDO ESTE LISTO TRIE
         	}
@@ -409,7 +408,7 @@ class Tabla {
         Conj<NombreCampo> Tabla::claves() const{
             return camposClave;
         }
-        
+
         Conj<NombreCampo> Tabla::campos() const{
             return camposT;
         }
@@ -420,7 +419,7 @@ class Tabla {
                 res.Agregar(CamIndiceN);
             }
             if(EstaIndiceS){
-                res.Agregar(CamIndiceS);   
+                res.Agregar(CamIndiceS);
             }
             return res;
         }
@@ -444,7 +443,7 @@ class Tabla {
                 return maxDatoString;
             }
         }
-        
+
         Nat Tabla::accesos() const{
             return accesosT;
         }
@@ -452,15 +451,15 @@ class Tabla {
         Driver::Registro Tabla::regCriterio() const{
             return registroCrit;
         }
-        
+
         NombreCampo Tabla::campoDicNat() const{
             return CamIndiceN;
         }
-        
+
         NombreCampo Tabla::campoDicString() const{
             return CamIndiceS;
         }
-        
+
         Conj<Driver::Registro> Tabla::obtenerDeIndice(bool indiceNat, const Nat n, const String s){
             Conj<Driver::Registro> res = Conj<Driver::Registro>();
             //true == indice nat
@@ -571,9 +570,9 @@ class Tabla {
             cout << "      **** FIN ****" << endl;
         }
 */
-//                 MOSTRAR INDICES SIN USAR ITERADOR A DICCIONARIO   
+//                 MOSTRAR INDICES SIN USAR ITERADOR A DICCIONARIO
 
-void mostrarIndiceN(NombreCampo c, Conj<Driver::Registro>::Iterador itRegistros, Dicc<Nat, Lista<tuplaIt> >& DicIndiceN){
+void mostrarIndiceN(NombreCampo c, Conj<Driver::Registro>::Iterador itRegistros, DicNat<Nat, Lista<tuplaIt> >& DicIndiceN){
             cout << "**** MUESTRO INDICE NAT ****" << endl;
             int i = 1;
             while(itRegistros.HaySiguiente()){
@@ -598,7 +597,7 @@ void mostrarIndiceN(NombreCampo c, Conj<Driver::Registro>::Iterador itRegistros,
             cout << "      **** FIN ****" << endl;
         }
 
-        void mostrarIndiceS(NombreCampo c, Conj<Driver::Registro>::Iterador itRegistros, Dicc<String, Lista<tuplaIt> >& DicIndiceS){
+        void mostrarIndiceS(NombreCampo c, Conj<Driver::Registro>::Iterador itRegistros, DicString< Lista<tuplaIt> >& DicIndiceS){
             cout << "**** MUESTRO INDICE STRING ****" << endl;
             int i = 1;
             while(itRegistros.HaySiguiente()){
@@ -659,7 +658,7 @@ void mostrarIndiceN(NombreCampo c, Conj<Driver::Registro>::Iterador itRegistros,
 				if(!EstaIndiceN){
 					cout << "NO TIENE INDICE SOBRE NATURALES" << endl;
 				}else{
-					cout << "TIENE INDICE SOBRE NATURALES" << endl;		
+					cout << "TIENE INDICE SOBRE NATURALES" << endl;
 					cout << "SU CAMPO ES " << CamIndiceN << endl;
 					cout << "SU MAXIMO ES " << maxDatoNat.dameNat() << " Y SU MINIMO " << minDatoNat.dameNat() << endl;
                     cout << "EL INDICE SOBRE NATURALES ES DE LA FORMA: " << endl;
@@ -673,9 +672,9 @@ void mostrarIndiceN(NombreCampo c, Conj<Driver::Registro>::Iterador itRegistros,
 				if(!EstaIndiceS){
 					cout << "NO TIENE INDICE SOBRE STRING" << endl;
 				}else{
-					cout << "TIENE INDICE SOBRE STRING" << endl;		
-					cout << "SU CAMPO ES " << CamIndiceS << endl; 
-					cout << "SU MAXIMO ES " << maxDatoString.dameString() << " Y SU MINIMO " << minDatoString.dameString() << endl;		
+					cout << "TIENE INDICE SOBRE STRING" << endl;
+					cout << "SU CAMPO ES " << CamIndiceS << endl;
+					cout << "SU MAXIMO ES " << maxDatoString.dameString() << " Y SU MINIMO " << minDatoString.dameString() << endl;
                     cout << "EL INDICE SOBRE STRING ES DE LA FORMA: " << endl;
                     Conj<Driver::Registro>::Iterador iteradorDeRegistrosS = registrosT.CrearIt();
                     mostrarIndiceS(CamIndiceS, iteradorDeRegistrosS, DicIndiceS);
@@ -693,8 +692,8 @@ void mostrarIndiceN(NombreCampo c, Conj<Driver::Registro>::Iterador itRegistros,
 					mostrarReg(r);
 					regIt.Avanzar();
                     j++;
-				}    
+				}
 
 			cout << "** FIN DE LA TABLA " << nombreT << " **" << endl;
-		
+
 		}
