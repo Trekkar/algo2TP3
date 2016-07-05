@@ -105,10 +105,16 @@ BaseDeDatos::tuplaJoin::tuplaJoin(NombreCampo c, TipoCampo t, Conj<NombreTabla>:
 
 
 BaseDeDatos::tuplaUnion::tuplaUnion(Driver::Registro r1, Driver::Registro r2, Conj<Driver::Registro>::Iterador i){
+//		Driver::Registro* reg1 = new Driver::Registro(r1);
+//		Driver::Registro* reg2 =  Driver::Registro(r2);
+
+//		registroTablaUno = *reg1;
+//		registroTablaDos = *reg2;
 		registroTablaUno = r1;
 		registroTablaDos = r2;
 		registroJoin = i;
 	}
+
 
 BaseDeDatos::tuplaCambios::tuplaCambios(NombreTabla n, Driver::Registro reg, bool a){
     	nTabla = n;
@@ -174,6 +180,7 @@ void BaseDeDatos::generarVistaJoin(const NombreTabla t1, const NombreTabla t2, c
 	Tabla* te1 = (arbolTablas.Significado(t1)).tab;
 	Tabla* te2 = (arbolTablas.Significado(t2)).tab;
 
+	
 	TipoCampo tc;
 	if ((*te1).tipoCampo(c))
 	{
@@ -190,8 +197,11 @@ void BaseDeDatos::generarVistaJoin(const NombreTabla t1, const NombreTabla t2, c
 	(((arbolTablas.Significado(t1)).dicJoin).Definir(t2, nj1));
 	(((arbolTablas.Significado(t2)).dicJoin).Definir(t1, nj2));
 
-	Conj<Driver::Registro>::Iterador it1 = ((*te1).registros()).CrearIt();
-	Conj<Driver::Registro>::Iterador it2 = ((*te2).registros()).CrearIt();
+	Conj<Driver::Registro> regsit1 = ((*te1).registros());
+	Conj<Driver::Registro> regsit2 = ((*te2).registros());
+
+	Conj<Driver::Registro>::Iterador it1 = regsit1.CrearIt();
+	Conj<Driver::Registro>::Iterador it2 = regsit2.CrearIt();
 
 
 	// Dicc<String, tuplaUnion> indiceS;
@@ -210,6 +220,7 @@ void BaseDeDatos::generarVistaJoin(const NombreTabla t1, const NombreTabla t2, c
 		it1.Avanzar();
 	};
 
+
 		while(it2.HaySiguiente()){
 		if (tc == STR){	
 
@@ -221,7 +232,7 @@ void BaseDeDatos::generarVistaJoin(const NombreTabla t1, const NombreTabla t2, c
 			}else{
 				Driver::Registro regvacio = Driver::Registro();
 				tuplaUnion tu = tuplaUnion(regvacio, it2.Siguiente(), v);
-				(tj->indiceS).Definir(((it1.Siguiente()).Significado(c)).dameString(), tu);
+				(tj->indiceS).Definir(((it2.Siguiente()).Significado(c)).dameString(), tu);
 			}
 
 		}else{
@@ -234,7 +245,7 @@ void BaseDeDatos::generarVistaJoin(const NombreTabla t1, const NombreTabla t2, c
 			}else{
 				Driver::Registro regvacio = Driver::Registro();
 				tuplaUnion tu = tuplaUnion(regvacio, it2.Siguiente(), v);
-				(tj->indiceN).Definir(((it1.Siguiente()).Significado(c)).dameNat(), tu);
+				(tj->indiceN).Definir(((it2.Siguiente()).Significado(c)).dameNat(), tu);
 			}
 		}
 		it2.Avanzar();
@@ -254,7 +265,8 @@ void BaseDeDatos::insertarEntrada(const Driver::Registro& r, NombreTabla t){
 	
 	while(it.HaySiguiente()){
 		tuplaJoin* a = (((arbolTablas.Significado(t)).dicJoin).Significado(it.Siguiente())).p;
-		(a->modificaciones).AgregarAdelante(cam);
+		(a->modificaciones).AgregarAtras(cam);
+		it.Avanzar();
 	}
 
 	(*t1).agregarRegistro(r); //SE AGREGA AHORA, NO?
@@ -279,7 +291,8 @@ void BaseDeDatos::borrar(const Driver::Registro& r, NombreTabla t){
 	
 	while(it.HaySiguiente()){
 		tuplaJoin* a = (((arbolTablas.Significado(t)).dicJoin).Significado(it.Siguiente())).p;
-		(a->modificaciones).AgregarAdelante(cam);
+		(a->modificaciones).AgregarAtras(cam);
+		it.Avanzar();
 	}
 	(*t1).quitarRegistro(r); //SE BORRA AHORA, NO?
 	if (tablaM == "empty"){	
@@ -295,39 +308,49 @@ Conj<Driver::Registro>::const_Iterador BaseDeDatos::vistaJoin(const NombreTabla 
 	Lista<tuplaCambios>::Iterador it = (tj->modificaciones).CrearIt();
 
 	while(it.HaySiguiente()){
-			
+//	cout << "NUEVA ITERACION" << endl;		
+
 			if((it.Siguiente()).agregar){																		//CASO AGREGAR
+//				cout << "agregar" << endl;
 
 				if(((it.Siguiente()).nTabla) == t1){															//CASO TABLA1
+//					cout << "tabla1" << endl;
 					
 					if(tj->indiceSValido){																		//CASO INDICE STRING
+//						cout << "indice string" << endl;
 
 						String parametro = (((it.Siguiente()).r).Significado(tj->cJoin)).dameString();
 
 						if((tj->indiceS).Definido(parametro)){													//CASO ESTA DEFINIDO (para la otra tabla)
+//							cout << "esta definido para la otra tabla" << endl;
 							((tj->indiceS).Significado(parametro)).registroTablaUno = (it.Siguiente()).r;
 							Driver::Registro registroUnido = unirRegistros(((it.Siguiente()).r), ((tj->indiceS).Significado(parametro)).registroTablaDos);
 							Conj<Driver::Registro>::Iterador iteradorJoin = (tj->vistaJoin).AgregarRapido(registroUnido);
 							((tj->indiceS).Significado(parametro)).registroJoin = iteradorJoin;
 
 						}else{																					//CASO NO ESTA DEFINIDO (para la otra tabla)
+//							cout << "no esta definido para la otra tabla" << endl;
 							Driver::Registro regvacio = Driver::Registro();
 							Conj<Driver::Registro>::Iterador v = vacio.CrearIt();
 							tuplaUnion tu = tuplaUnion((it.Siguiente()).r, regvacio, v);
 							(tj->indiceS).Definir(parametro, tu);
 						}	
 
-					}else{																						//CASO INDICE NAT
+					}else{	
+																										//CASO INDICE NAT
+//						cout << "indice nat" << endl;
 
 						Nat parametro = (((it.Siguiente()).r).Significado(tj->cJoin)).dameNat();
 
 						if((tj->indiceN).Definido(parametro)){													//CASO ESTA DEFINIDO (para la otra tabla)
+//							cout << "esta definido para la otra tabla" << endl;
 							((tj->indiceN).Significado(parametro)).registroTablaUno = (it.Siguiente()).r;
 							Driver::Registro registroUnido = unirRegistros(((it.Siguiente()).r), ((tj->indiceN).Significado(parametro)).registroTablaDos);
 							Conj<Driver::Registro>::Iterador iteradorJoin = (tj->vistaJoin).AgregarRapido(registroUnido);
 							((tj->indiceN).Significado(parametro)).registroJoin = iteradorJoin;
 
 						}else{																					//CASO NO ESTA DEFINIDO (para la otra tabla)
+//							cout << "no esta definido para la otra tabla" << endl;
 							Driver::Registro regvacio = Driver::Registro();
 							Conj<Driver::Registro>::Iterador v = vacio.CrearIt();
 							tuplaUnion tu = tuplaUnion((it.Siguiente()).r, regvacio, v);
@@ -336,18 +359,22 @@ Conj<Driver::Registro>::const_Iterador BaseDeDatos::vistaJoin(const NombreTabla 
 					}
 
 				}else{																							//CASO TABLA2
+//					cout << "tabla2" << endl;
 
 					if(tj->indiceSValido){																		//CASO INDICE STRING
+//						cout << "indice string" << endl;
 
 						String parametro = (((it.Siguiente()).r).Significado(tj->cJoin)).dameString();
 
 						if((tj->indiceS).Definido(parametro)){													//CASO ESTA DEFINIDO (para la otra tabla)
+//							cout << "esta definido para la otra tabla" << endl;
 							((tj->indiceS).Significado(parametro)).registroTablaDos = (it.Siguiente()).r;
 							Driver::Registro registroUnido = unirRegistros(((tj->indiceS).Significado(parametro)).registroTablaUno, ((it.Siguiente()).r));
 							Conj<Driver::Registro>::Iterador iteradorJoin = (tj->vistaJoin).AgregarRapido(registroUnido);
 							((tj->indiceS).Significado(parametro)).registroJoin = iteradorJoin;
 
 						}else{																					//CASO NO ESTA DEFINIDO (para la otra tabla)
+//							cout << "no esta definido para la otra tabla" << endl;
 							Driver::Registro regvacio = Driver::Registro();
 							Conj<Driver::Registro>::Iterador v = vacio.CrearIt();
 							tuplaUnion tu = tuplaUnion(regvacio, (it.Siguiente()).r, v);
@@ -355,16 +382,19 @@ Conj<Driver::Registro>::const_Iterador BaseDeDatos::vistaJoin(const NombreTabla 
 						}	
 
 					}else{																						//CASO INDICE NAT
-
+//						cout << "indice nat" << endl;
 						Nat parametro = (((it.Siguiente()).r).Significado(tj->cJoin)).dameNat();
 
 						if((tj->indiceN).Definido(parametro)){													//CASO ESTA DEFINIDO (para la otra tabla)
+//							cout << "esta definido para la otra tabla" << endl;
 							((tj->indiceN).Significado(parametro)).registroTablaDos = (it.Siguiente()).r;
+							((tj->indiceN).Significado(parametro));
 							Driver::Registro registroUnido = unirRegistros(((tj->indiceN).Significado(parametro)).registroTablaUno, ((it.Siguiente()).r));
 							Conj<Driver::Registro>::Iterador iteradorJoin = (tj->vistaJoin).AgregarRapido(registroUnido);
 							((tj->indiceN).Significado(parametro)).registroJoin = iteradorJoin;
 
 						}else{																					//CASO NO ESTA DEFINIDO (para la otra tabla)
+//							cout << "no esta definido para la otra tabla" << endl;
 							Driver::Registro regvacio = Driver::Registro();
 							Conj<Driver::Registro>::Iterador v = vacio.CrearIt();
 							tuplaUnion tu = tuplaUnion(regvacio, (it.Siguiente()).r, v);
@@ -374,63 +404,65 @@ Conj<Driver::Registro>::const_Iterador BaseDeDatos::vistaJoin(const NombreTabla 
 				}
 
 			}else{																								//CASO BORRAR
+//				cout << "borrar" << endl;
 
 				if(((it.Siguiente()).nTabla) == t1){															//CASO TABLA1
+//					cout << "tabla1" << endl;
 					
 					if(tj->indiceSValido){																		//CASO INDICE STRING
+//						cout << "indice string" << endl;
 
 						String parametro = (((it.Siguiente()).r).Significado(tj->cJoin)).dameString();
 
-						if(registroVacio(((tj->indiceS).Significado(parametro)).registroTablaDos)){				//CASO ESTA DEFINIDO (para la otra tabla, es decir, estan unidos)
+//							cout << "esta definido para la otra tabla" << endl;
 							((tj->indiceS).Significado(parametro)).registroTablaUno = Driver::Registro();
 							Conj<Driver::Registro>::Iterador iteradorJoin = ((tj->indiceS).Significado(parametro)).registroJoin;
-							iteradorJoin.EliminarSiguiente();
-
-						}else{																					//CASO NO ESTA DEFINIDO (para la otra tabla)
-							((tj->indiceS).Significado(parametro)).registroTablaUno = Driver::Registro();
-						}	
+							if(iteradorJoin.HaySiguiente()){													//CASO SI ESTAN UNIDOS
+								iteradorJoin.EliminarSiguiente();
+							}else{
+								((tj->indiceS).Borrar(parametro));
+							}	
 
 					}else{																						//CASO INDICE NAT
+						cout << "indice nat" << endl;
 
 						Nat parametro = (((it.Siguiente()).r).Significado(tj->cJoin)).dameNat();
 
-						if((tj->indiceN).Definido(parametro)){													//CASO ESTA DEFINIDO (para la otra tabla, es decir, estan unidos)
+//							cout << "esta definido para la otra tabla" << endl;
 							((tj->indiceN).Significado(parametro)).registroTablaUno = Driver::Registro();
 							Conj<Driver::Registro>::Iterador iteradorJoin = ((tj->indiceN).Significado(parametro)).registroJoin;
-							iteradorJoin.EliminarSiguiente();
+							if(iteradorJoin.HaySiguiente()){													//CASO SI ESTAN UNIDOS
+								iteradorJoin.EliminarSiguiente();
+							}else{
+								((tj->indiceN).Borrar(parametro));
+							}
 
-						}else{																					//CASO NO ESTA DEFINIDO (para la otra tabla)
-							((tj->indiceN).Significado(parametro)).registroTablaUno = Driver::Registro();
-						}
 					}
 
 				}else{																							//CASO TABLA2
+//					cout << "tabla2" << endl;
 
 					if(tj->indiceSValido){																		//CASO INDICE STRING
-
+//						cout << "indice string" << endl;
 						String parametro = (((it.Siguiente()).r).Significado(tj->cJoin)).dameString();
-
-						if((tj->indiceS).Definido(parametro)){													//CASO ESTA DEFINIDO (para la otra tabla, es decir, estan unidos)
-							((tj->indiceS).Significado(parametro)).registroTablaDos = Driver::Registro();
-							Conj<Driver::Registro>::Iterador iteradorJoin = ((tj->indiceS).Significado(parametro)).registroJoin;
-							iteradorJoin.EliminarSiguiente();
-
-						}else{																					//CASO NO ESTA DEFINIDO (para la otra tabla)
-							((tj->indiceS).Significado(parametro)).registroTablaDos = Driver::Registro();
-						}	
+						((tj->indiceS).Significado(parametro)).registroTablaDos = Driver::Registro();
+						Conj<Driver::Registro>::Iterador iteradorJoin = ((tj->indiceS).Significado(parametro)).registroJoin;
+							if(iteradorJoin.HaySiguiente()){													//CASO SI ESTAN UNIDOS
+								iteradorJoin.EliminarSiguiente();
+							}else{
+								((tj->indiceS).Borrar(parametro));
+							}
 
 					}else{																						//CASO INDICE NAT
-
+//						cout << "indice nat" << endl;
 						Nat parametro = (((it.Siguiente()).r).Significado(tj->cJoin)).dameNat();
-
-						if((tj->indiceN).Definido(parametro)){													//CASO ESTA DEFINIDO (para la otra tabla, es decir, estan unidos)
-							((tj->indiceN).Significado(parametro)).registroTablaDos = Driver::Registro();
-							Conj<Driver::Registro>::Iterador iteradorJoin = ((tj->indiceN).Significado(parametro)).registroJoin;
-							iteradorJoin.EliminarSiguiente();
-
-						}else{																					//CASO NO ESTA DEFINIDO (para la otra tabla)
-							((tj->indiceN).Significado(parametro)).registroTablaDos = Driver::Registro();
-						}
+						((tj->indiceN).Significado(parametro)).registroTablaDos = Driver::Registro();
+						Conj<Driver::Registro>::Iterador iteradorJoin = ((tj->indiceN).Significado(parametro)).registroJoin;
+							if(iteradorJoin.HaySiguiente()){													//CASO SI ESTAN UNIDOS
+								iteradorJoin.EliminarSiguiente();
+							}else{
+								((tj->indiceN).Borrar(parametro));
+							}
 					}
 				}
 			}
@@ -473,7 +505,7 @@ void BaseDeDatos::MostrarBaseDeDatos(){
 	cout << endl;
 	cout << "LAS TABLAS QUE EXISTENTES SON:" <<endl;
 	Conj<NombreTabla>::const_Iterador ITOBA = nTablas.CrearIt();
-	cout << "{" ;
+	cout << "{ " ;
 	while(ITOBA.HaySiguiente()){
 		
    		cout << (ITOBA).Siguiente() << " " ;
@@ -593,7 +625,6 @@ int main()
 ///////////////////////////////////////////////////BASEDEDATOS:
   BaseDeDatos b;
   b.agregarTabla(pepito);
-  b.insertarEntrada(Runo, nombre);
   b.insertarEntrada(Rdos, nombre);
   b.insertarEntrada(Rtres, nombre);
   b.insertarEntrada(Rcuatro, nombre);
@@ -659,12 +690,6 @@ int main()
   b.agregarTabla(jose);
   b.insertarEntrada(R2uno, name);
   b.insertarEntrada(R2dos, name);
-  b.insertarEntrada(R2tres, name);
-  b.borrar(R2tres, name);
-  b.insertarEntrada(R2tres, name);
-  b.borrar(R2tres, name);
-  b.insertarEntrada(R2tres, name);
-  b.borrar(R2tres, name);
 
 ///////////////////////////////////////////////////BORRAR REGISTROS:
   //pepito.quitarRegistro(Rdos);
@@ -688,8 +713,17 @@ int main()
 
   b.MostrarBaseDeDatos();
   cout << "HAY JOIN? " << b.hayJoin(nombre, name) << endl;
-  //b.generarVistaJoin(nombre, name, dos);
+  b.generarVistaJoin(nombre, name, dos);
 
+  cout << "CAMBIOS REGISTROS" << endl;
+
+  b.insertarEntrada(R2tres, name);
+  b.borrar(R2tres, name);
+  b.insertarEntrada(Runo, nombre);
+
+  cout << "VISTAJOIN" << endl;
+
+  b.vistaJoin(nombre,name);
 
 
   //cout<< "CHECKPOINT" << endl;
@@ -699,19 +733,3 @@ int main()
 
   return 0;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
