@@ -48,7 +48,7 @@ class Tabla {
         Driver::Dato maximo(const NombreCampo) const;
         Nat accesos() const;
         Driver::Registro regCriterio() const;
-        Driver::Registro obtenerDeIndice(bool, const Nat, const String);
+        Conj<Driver::Registro> obtenerDeIndice(bool, const Nat, const String);
         NombreCampo campoDicNat() const;
         NombreCampo campoDicString() const;
         NombreTabla nombreDeLaTabla() const;
@@ -389,14 +389,14 @@ class Tabla {
         }
 
         Conj<NombreCampo> Tabla::indices() const{
-            Conj<NombreCampo>* res = new Conj<NombreCampo>;
+            Conj<NombreCampo> res = Conj<NombreCampo>();
             if(EstaIndiceN){
-                res->Agregar(CamIndiceN);
+                res.Agregar(CamIndiceN);
             }
             if(EstaIndiceS){
-                res->Agregar(CamIndiceS);   
+                res.Agregar(CamIndiceS);   
             }
-            return *res;
+            return res;
         }
 
         bool Tabla::tipoCampo(const NombreCampo c) const {
@@ -435,16 +435,30 @@ class Tabla {
             return CamIndiceS;
         }
         
-        Driver::Registro Tabla::obtenerDeIndice(bool indiceNat, const Nat n, const String s){
+        Conj<Driver::Registro> Tabla::obtenerDeIndice(bool indiceNat, const Nat n, const String s){
+            Conj<Driver::Registro> res = Conj<Driver::Registro>();
             //true == indice nat
             //false == indice string
             if(indiceNat){
-                Lista<tuplaIt>::Iterador it = (DicIndiceN.Significado(n)).CrearIt();
-                return ((it.Siguiente()).CR()).Siguiente();
+            	cout << "ACA NAT" << endl;
+                Lista<tuplaIt> hola = (DicIndiceN.Significado(n));
+                Lista<tuplaIt>::Iterador it = hola.CrearIt();
+                while(it.HaySiguiente()){
+                	res.AgregarRapido(((it.Siguiente()).CR()).Siguiente());
+                	it.Avanzar();
+                }
             }else{
-                Lista<tuplaIt>::Iterador it = (DicIndiceS.Significado(s)).CrearIt();
-                return ((it.Siguiente()).CR()).Siguiente();
+            	cout << "ACA STRING" << endl;
+                Lista<tuplaIt> chau = (DicIndiceS.Significado(s));
+                cout << "ACA STRING SALE" << endl;
+                Lista<tuplaIt>::Iterador it = chau.CrearIt();
+                cout << "ACA STRING SALE2" << endl;
+                while(it.HaySiguiente()){
+                	res.AgregarRapido(((it.Siguiente()).CR()).Siguiente());
+                	it.Avanzar();
+                }
             }
+            return res;
         }
 
         NombreTabla Tabla::nombreDeLaTabla() const{
