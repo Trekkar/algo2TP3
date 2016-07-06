@@ -1,4 +1,5 @@
 #include "Driver.h"
+#include "BaseDeDatos.cpp"
 
 bool aed2::operator == (const aed2::Columna& c1, const aed2::Columna& c2)
 {
@@ -65,6 +66,7 @@ bool Driver::Dato::operator != (const Dato& otro) const
 
 Driver::Driver()
 {
+  b = BaseDeDatos();
   // TODO ...
   assert(false);
 }
@@ -197,7 +199,7 @@ void Driver::crearIndiceString(const NombreTabla& tabla, const NombreCampo& camp
 
 bool Driver::hayJoin(const NombreTabla& tabla1, const NombreTabla& tabla2) const
 {
-  //bool res;
+ // bool res;
   //res = b.hayJoin(tabla1, tabla2);
   //return res;
   assert(false);
@@ -225,4 +227,11 @@ aed2::Conj<Driver::Registro> Driver::vistaJoin(const NombreTabla& tabla1, const 
 {
   // TODO ...
   assert(false);
+}
+
+
+int main()
+{
+	/* code */
+	return 0;
 }

@@ -1,5 +1,5 @@
 #include "BaseDeDatos.h"
-#include "Driver.cpp"
+//#include "Driver.cpp"
 //#include "tabla.h"
 
 using namespace aed2;
@@ -151,7 +151,7 @@ Conj<NombreTabla>::const_Iterador BaseDeDatos::tablas(){
 	return nTablas.CrearIt();
 };
 
-NombreTabla BaseDeDatos::tablaMaxima(){
+ NombreTabla BaseDeDatos::tablaMaxima(){
 	return tablaM;
 };
 
@@ -160,13 +160,13 @@ Tabla& BaseDeDatos::dameTabla(const NombreTabla t){
 	return (*(arbolTablas.Significado(t)).tab);
 };
 
-NombreCampo BaseDeDatos::campoJoin(const NombreTabla t1, const NombreTabla t2){
+ NombreCampo BaseDeDatos::campoJoin(const NombreTabla t1, const NombreTabla t2){
 	tuplaJoin* a = (((arbolTablas.Significado(t1)).dicJoin).Significado(t2)).p;
 
 	return a->cJoin;
 };
 
-bool BaseDeDatos::hayJoin(const NombreTabla t1, const NombreTabla t2){
+ bool BaseDeDatos::hayJoin(const NombreTabla t1, const NombreTabla t2) {
 
 	bool r;
 
@@ -617,7 +617,7 @@ void BaseDeDatos::MostrarBaseDeDatos(){
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////MAIN
-
+/*
 int main()
 {
 
@@ -861,6 +861,7 @@ int main()
   		itvista.Avanzar();
   }*/
 
+/*  
   b.borrarJoin(nombre, name);
  	cout << endl;
  	cout << endl;
@@ -878,3 +879,4 @@ int main()
 
   return 0;
 }
+*/
