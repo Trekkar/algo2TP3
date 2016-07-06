@@ -12,6 +12,7 @@ using namespace aed2;
 // Dato
 ////////////////////////////////////////////////////////////////////////////////
 
+/*
 Driver::Dato::Dato(const aed2::Nat& x)
   : tipo_( NAT ), nat_( x )
 {}
@@ -60,6 +61,7 @@ bool Driver::Dato::operator != (const Dato& otro) const
   return not (*this == otro);
 }
 
+*/
 ////////////////////////////////////////////////////////////////////////////////
 // Base de datos
 ////////////////////////////////////////////////////////////////////////////////
@@ -83,74 +85,92 @@ Driver::~Driver()
 
 void Driver::crearTabla(const NombreTabla& nombre, const aed2::Conj<Columna>& columnas, const aed2::Conj<NombreCampo>& claves)
 {
-  // TODO ...
-  assert(false);
+  Tabla t = Tabla(nombre, columnas, claves);
+  b.agregarTabla(t);
 }
 
 void Driver::insertarRegistro(const NombreTabla& tabla, const Registro& registro)
 {
-  // TODO ...
-  assert(false);
+  b.insertarEntrada(registro, tabla);
 }
 
 void Driver::borrarRegistro(const NombreTabla& tabla, const NombreCampo& columna, const Dato& valor)
 {
-  // TODO ...
-  assert(false);
+  Registro reg = Registro();
+  reg.Definir(columna,valor);
+  b.borrar(reg, tabla);
 }
 
 aed2::Conj<Columna> Driver::columnasDeTabla(const NombreTabla& tabla) const
 {
-  // TODO ...
-  assert(false);
+  Conj<Columna> res = Conj<Columna>();
+  Conj<NombreCampo> cam = (b.dameTabla(tabla)).campos();
+  Conj<NombreCampo>::const_Iterador itCam = cam.CrearIt();
+  while(itCam.HaySiguiente()){
+    NombreCampo nom = itCam.Siguiente();
+    TipoCampo tipoc;
+      if((b.dameTabla(tabla)).tipoCampo(nom)){
+        tipoc = NAT;
+      }else{
+        tipoc = STR;
+      }
+
+    Columna col;
+    col.nombre = nom;
+    col.tipo = tipoc;
+
+    res.AgregarRapido(col);
+    itCam.Avanzar();
+  }
+
+  return res;
 }
 
 aed2::Conj<NombreCampo> Driver::columnasClaveDeTabla(const NombreTabla& tabla) const
 {
-  // TODO ...
-  assert(false);
+  Conj<NombreCampo> res = (b.dameTabla(tabla)).claves();
+  return res;
 }
 
-aed2::Conj<Driver::Registro> Driver::registrosDeTabla(const NombreTabla& tabla) const
+aed2::Conj<Registro> Driver::registrosDeTabla(const NombreTabla& tabla) const
 {
-  // TODO ...
-  assert(false);
+  Conj<Registro> res = (b.dameTabla(tabla)).registros();
+  return res;
 }
 
 aed2::Nat Driver::cantidadDeAccesosDeTabla(const NombreTabla& tabla) const
 {
-  // TODO ...
-  assert(false);
+  Nat res = (b.dameTabla(tabla)).accesos();
+  return res;
 }
 
-Driver::Dato Driver::minimo(const NombreTabla& tabla, const NombreCampo& columna) const
+Dato Driver::minimo(const NombreTabla& tabla, const NombreCampo& columna) const
 {
-  // TODO ...
-  assert(false);
+  Dato res = (b.dameTabla(tabla)).minimo(columna);
+  return res;
 }
 
-Driver::Dato Driver::maximo(const NombreTabla& tabla, const NombreCampo& columna) const
+Dato Driver::maximo(const NombreTabla& tabla, const NombreCampo& columna) const
 {
-  // TODO ...
-  assert(false);
+  Dato res = (b.dameTabla(tabla)).maximo(columna);
+  return res;
 }
 
-aed2::Conj<Driver::Registro> Driver::buscar(const NombreTabla& tabla, const Registro& criterio) const
+aed2::Conj<Registro> Driver::buscar(const NombreTabla& tabla, const Registro& criterio) const
 {
-  // TODO ...
-  assert(false);
+  Conj<Registro> res = b.buscar(criterio, tabla);
+  return res;
 }
 
 aed2::Conj<NombreTabla> Driver::tablas() const
 {
-  // TODO ...
-  assert(false);
+ Conj<NombreTabla> res = b.nombresTablas();
+ return res;
 }
 
 NombreTabla Driver::tablaMaxima() const
 {
-  // TODO ...
-  assert(false);
+  return b.tablaMaxima();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -159,38 +179,34 @@ NombreTabla Driver::tablaMaxima() const
 
 bool Driver::tieneIndiceNat(const NombreTabla& tabla) const
 {
-  // TODO ...
-  assert(false);
+  return (b.dameTabla(tabla)).tieneIndiceNat();
 }
 
 bool Driver::tieneIndiceString(const NombreTabla& tabla) const
 {
-  // TODO ...
-  assert(false);
+  return (b.dameTabla(tabla)).tieneIndiceString();
 }
 
 NombreCampo Driver::campoIndiceNat(const NombreTabla& tabla) const
 {
-  // TODO ...
-  assert(false);
+  NombreCampo cam = (b.dameTabla(tabla)).campoDicNat();
+  return cam;
 }
 
 NombreCampo Driver::campoIndiceString(const NombreTabla& tabla) const
 {
-  // TODO ...
-  assert(false);
+  NombreCampo cam = (b.dameTabla(tabla)).campoDicString();
+  return cam; 
 }
 
 void Driver::crearIndiceNat(const NombreTabla& tabla, const NombreCampo& campo)
 {
-  // TODO ...
-  assert(false);
+  (b.dameTabla(tabla)).indexar(campo);
 }
 
 void Driver::crearIndiceString(const NombreTabla& tabla, const NombreCampo& campo)
 {
-  // TODO ...
-  assert(false);
+  (b.dameTabla(tabla)).indexar(campo);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -199,39 +215,35 @@ void Driver::crearIndiceString(const NombreTabla& tabla, const NombreCampo& camp
 
 bool Driver::hayJoin(const NombreTabla& tabla1, const NombreTabla& tabla2) const
 {
- // bool res;
-  //res = b.hayJoin(tabla1, tabla2);
-  //return res;
-  assert(false);
+  bool res;
+  res = b.hayJoin(tabla1, tabla2);
+  return res;
 }
 
 NombreCampo Driver::campoJoin(const NombreTabla& tabla1, const NombreTabla& tabla2) const
 {
-  // TODO ...
-  assert(false);
+  NombreCampo cam = b.campoJoin(tabla1, tabla2);
+  return cam; 
 }
 
 void Driver::generarVistaJoin(const NombreTabla& tabla1, const NombreTabla& tabla2, const NombreCampo& campo)
 {
-  // TODO ...
-  assert(false);
+  b.generarVistaJoin(tabla1, tabla2, campo);
 }
 
 void Driver::borrarVistaJoin(const NombreTabla& tabla1, const NombreTabla& tabla2)
 {
-  // TODO ...
-  assert(false);
+  b.borrarJoin(tabla1, tabla2);
 }
 
-aed2::Conj<Driver::Registro> Driver::vistaJoin(const NombreTabla& tabla1, const NombreTabla& tabla2)/* const*/
+aed2::Conj<Registro> Driver::vistaJoin(const NombreTabla& tabla1, const NombreTabla& tabla2)/* const*/
 {
-  // TODO ...
-  assert(false);
+  b.vistaJoin(tabla1, tabla2);
 }
 
 
 int main()
 {
-	/* code */
+  cout << "driver" << endl;
 	return 0;
 }

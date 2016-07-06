@@ -39,17 +39,19 @@ public:
 	BaseDeDatos();
 	~BaseDeDatos();
 	void agregarTabla(Tabla& t);
-	void insertarEntrada(const Registro& r, NombreTabla t);
+	void insertarEntrada(const Registro, const NombreTabla&);
 	void borrar(const Registro& r, NombreTabla t);
+	//void borrarRegistro(const Registro& r, NombreTabla t);
 	void generarVistaJoin(const NombreTabla t1, const NombreTabla t2, const NombreCampo c);
 	Conj<Registro>::const_Iterador vistaJoin(const NombreTabla t1, const NombreTabla t2);
 	void borrarJoin(const NombreTabla t1, const NombreTabla t2);
 	Conj<NombreTabla>::const_Iterador tablas();
-	Tabla& dameTabla(const NombreTabla t);
-	bool hayJoin(const NombreTabla t1, const NombreTabla t2);
-	NombreCampo campoJoin(const NombreTabla t1, const NombreTabla t2);
-	NombreTabla tablaMaxima(); //devuelve el nombre de la tabla con mayor acceso (tablaM)
-	Conj<Registro> buscar(const Registro& crit, const NombreTabla t);
+	Conj<NombreTabla> nombresTablas() const;
+	Tabla& dameTabla(const NombreTabla t) const;
+	bool hayJoin(const NombreTabla t1, const NombreTabla t2) const;
+	NombreCampo campoJoin(const NombreTabla t1, const NombreTabla t2) const;
+	NombreTabla tablaMaxima() const; //devuelve el nombre de la tabla con mayor acceso (tablaM)
+	Conj<Registro> buscar(const Registro& crit, const NombreTabla t) const;
 	void MostrarBaseDeDatos();
 
 

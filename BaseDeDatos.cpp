@@ -151,22 +151,24 @@ Conj<NombreTabla>::const_Iterador BaseDeDatos::tablas(){
 	return nTablas.CrearIt();
 };
 
- NombreTabla BaseDeDatos::tablaMaxima(){
+ NombreTabla BaseDeDatos::tablaMaxima() const{
 	return tablaM;
 };
 
-Tabla& BaseDeDatos::dameTabla(const NombreTabla t){
+Tabla& BaseDeDatos::dameTabla(const NombreTabla t) const{
 	//tuplaAux a = arbolTablas.Significado(t);
-	return (*(arbolTablas.Significado(t)).tab);
+	NombreTabla nombre = t;
+	Tabla* res = ((arbolTablas.Significado(nombre)).tab);
+	return *res;
 };
 
- NombreCampo BaseDeDatos::campoJoin(const NombreTabla t1, const NombreTabla t2){
+ NombreCampo BaseDeDatos::campoJoin(const NombreTabla t1, const NombreTabla t2) const{
 	tuplaJoin* a = (((arbolTablas.Significado(t1)).dicJoin).Significado(t2)).p;
 
 	return a->cJoin;
 };
 
- bool BaseDeDatos::hayJoin(const NombreTabla t1, const NombreTabla t2) {
+ bool BaseDeDatos::hayJoin(const NombreTabla t1, const NombreTabla t2) const {
 
 	bool r;
 
@@ -280,7 +282,7 @@ void BaseDeDatos::generarVistaJoin(const NombreTabla t1, const NombreTabla t2, c
 }
 
 
-void BaseDeDatos::insertarEntrada(const Registro& r, NombreTabla t){
+void BaseDeDatos::insertarEntrada(const Registro r, const NombreTabla& t){
 	Tabla* t1 = (arbolTablas.Significado(t)).tab;
 	Tabla* tm;
 	if (tablaM != "empty"){
@@ -320,7 +322,7 @@ void BaseDeDatos::borrar(const Registro& r, NombreTabla t){
 
 	while(itbuscar.HaySiguiente()){
 		//cout << "SE VA A BORRAR EL REGISTRO: " << endl;
-		mostrarReg(itbuscar.Siguiente());
+		//mostrarReg(itbuscar.Siguiente());
 		(*t1).quitarRegistro(itbuscar.Siguiente());
 
 		it = ((arbolTablas.Significado(t)).nombresJoins).CrearIt();
@@ -341,6 +343,36 @@ void BaseDeDatos::borrar(const Registro& r, NombreTabla t){
 	}
 
 }
+
+/*
+//ES UN COPY PASTE DE BORRAR, LO HACE SOLAMENTE PARA UN REGISTRO
+void BaseDeDatos::borrarRegistro(const Registro& r, NombreTabla t){
+
+	Tabla* t1 = (arbolTablas.Significado(t)).tab;
+	Tabla* tm;
+	if (tablaM != "empty"){
+		tm = (arbolTablas.Significado(tablaM)).tab;
+	}
+
+		(*t1).quitarRegistro(r);
+
+		Conj<NombreTabla>::Iterador it = ((arbolTablas.Significado(t)).nombresJoins).CrearIt();
+		
+		while(it.HaySiguiente()){
+		tuplaJoin* a = (((arbolTablas.Significado(t)).dicJoin).Significado(it.Siguiente())).p;
+		tuplaCambios cam = tuplaCambios(t, r, false);
+		(a->modificaciones).AgregarAtras(cam);
+		it.Avanzar();
+		}
+
+	if (tablaM == "empty"){
+		tablaM = t;
+	} else if ((*t1).accesos() > (*tm).accesos()){
+		tablaM = t;
+	}
+
+}
+*/
 
 Conj<Registro>::const_Iterador BaseDeDatos::vistaJoin(const NombreTabla t1, const NombreTabla t2){
 	tuplaJoin* tj = (((arbolTablas.Significado(t1)).dicJoin).Significado(t2)).p;
@@ -512,7 +544,7 @@ Conj<Registro>::const_Iterador BaseDeDatos::vistaJoin(const NombreTabla t1, cons
 		return (tj->vistaJoin).CrearIt();
 };
 
-Conj<Registro> BaseDeDatos::buscar(const Registro& r, NombreTabla t){
+Conj<Registro> BaseDeDatos::buscar(const Registro& r, const NombreTabla t) const{
 	Tabla* latabla = (arbolTablas.Significado(t)).tab;
 	Conj<Registro> conjRegistros = ((*(arbolTablas.Significado(t).tab)).registros());
 	Conj<Registro>::Iterador itRegistros = conjRegistros.CrearIt();
@@ -614,6 +646,10 @@ void BaseDeDatos::MostrarBaseDeDatos(){
   cout << endl;
   cout <<"LA TABLA MAXIMA ES: " <<  tablaM << endl;
 
+}
+
+Conj<NombreTabla> BaseDeDatos::nombresTablas() const{
+	return nTablas;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////MAIN

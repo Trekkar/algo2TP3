@@ -23,21 +23,21 @@ class DicString
 		
 		void Borrar(String s);
 		
-		bool Definido(String s);
+		bool Definido(String s) const;
 		
-		bool Vacio();
+		bool Vacio() const;
 		
-		int cantClaves();
+		int cantClaves() const;
 		
-		T& Significado(String s);
+		T& Significado(String s) const;
 		
-		const String MaxClave();
+		const String MaxClave() const;
 		
-		const String MinClave();
+		const String MinClave() const;
 		
-		const T& Min();
+		const T& Min() const;
 		
-		const T& Max();
+		const T& Max() const;
 	
 		//bool operator==(const DicString<T>&) const;
 		
@@ -106,7 +106,7 @@ class DicString
 			
 		};
 				
-		const Nat Ord(const char &a);
+		const Nat Ord(const char &a) const;
 		
 		Vector<Nodo*> hijos;
 		int cantidad;
@@ -118,7 +118,7 @@ class DicString
 
 // divide los chars a-z por 97, siendo 97 el valor de 'a'  en ASCII 
 template <class T>
-const Nat DicString<T>::Ord(const char& a)
+const Nat DicString<T>::Ord(const char& a) const
 {
 	return (Nat)a;
 }
@@ -423,7 +423,7 @@ void DicString<T>::Borrar(String s)
 
 
 template <class T>
-bool DicString<T>::Definido(String s)
+bool DicString<T>::Definido(String s) const
 {
 	if(Vacio())
 	{
@@ -475,19 +475,19 @@ bool DicString<T>::Definido(String s)
 }
 
 template <class T>
-bool DicString<T>::Vacio()
+bool DicString<T>::Vacio() const
 {
 	return this->cantidad == 0;
 }
 
 template <class T>
-int DicString<T>::cantClaves()
+int DicString<T>::cantClaves() const
 {
 	return this->cantidad;
 }
 
 template <class T>
-T& DicString<T>::Significado(String s)
+T& DicString<T>::Significado(String s) const
 {
 	//	cout << "quiero Obtener: " << s << endl; 
 		if(s == minClave)
@@ -521,25 +521,25 @@ T& DicString<T>::Significado(String s)
 }
 
 template <class T>
-const String DicString<T>::MaxClave()
+const String DicString<T>::MaxClave() const
 {
 	return maxClave;
 }
 
 template <class T>
-const String DicString<T>::MinClave()
+const String DicString<T>::MinClave() const
 {
 	return minClave;
 }
 
 template <class T>
-const T& DicString<T>::Min()
+const T& DicString<T>::Min() const
 {
 	return *minSig;
 }
 
 template <class T>
-const T& DicString<T>::Max()
+const T& DicString<T>::Max() const
 {
 	return *maxSig;
 	

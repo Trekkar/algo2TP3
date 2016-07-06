@@ -17,6 +17,8 @@ class Driver
     /**
      * Esta clase representa un dato, que puede tomar valores de String o de Nat.
      */
+
+     /*
     class Dato
     {
       public:
@@ -42,10 +44,13 @@ class Driver
         aed2::String str_;
     };
 
+
+    */
+    
     /**
      * Esta clase representa un registro, es decir, un mapeo de nombres de columna a valores.
      */
-    typedef aed2::Dicc<NombreCampo, Dato> Registro;
+ //   typedef aed2::Dicc<NombreCampo, Dato> Registro;
 
   // Base de datos
 
