@@ -4,6 +4,7 @@
 #include "Driver.h"
 #include "mini_test.h"
 #include "DicNat.h"
+#include "Dato.h"
 
 #include <string>
 #include <iostream>
@@ -66,21 +67,40 @@ void testDicNat(){
     ASSERT_EQ(dn.CantClaves(), 10);
     ASSERT_EQ(dn.Definido(10), true);
     ASSERT_EQ(dn.Significado(4), 2);
-    ASSERT_EQ(dn.Min(), 2);
-    ASSERT_EQ(dn.Max(), 3);
+    ASSERT_EQ(dn.Min(), 4);
+    ASSERT_EQ(dn.Max(), 16);
 
     dn.Borrar(10);
     ASSERT_EQ(dn.CantClaves(), 9);
     ASSERT_EQ(dn.Definido(10), false);
 
     dn.Borrar(16);
-    ASSERT_EQ(dn.Max(), 9);
+    ASSERT_EQ(dn.Max(), 15);
+
+}
+void testDato(){
+
+    aed2::Dato a = aed2::Dato(1);
+    aed2::Dato b = aed2::Dato(1);
+    aed2::Dato c = aed2::Dato("ian");
+    aed2::Dato d = aed2::Dato("ian");
+    aed2::Dato e = aed2::Dato(2);
+
+    ASSERT_EQ(a==b,true);
+    ASSERT_EQ(c==d,true);/**/
+    ASSERT_EQ(a.esNat(),true);
+    ASSERT_EQ(c.esString(),true);
+    ASSERT_EQ(a<e,true);
+     ASSERT_EQ(e>a,true);
+
+
 
 }
 
 int main(int argc, char **argv)
 {
   RUN_TEST( testDicNat );
+  RUN_TEST( testDato );
 
   /********************************************************************
    * TODO: escribir casos de test exhaustivos para todas              *

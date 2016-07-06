@@ -39,17 +39,17 @@ public:
 	BaseDeDatos();
 	~BaseDeDatos();
 	void agregarTabla(Tabla& t);
-	void insertarEntrada(const Driver::Registro& r, NombreTabla t);
-	void borrar(const Driver::Registro& r, NombreTabla t);
+	void insertarEntrada(const Registro& r, NombreTabla t);
+	void borrar(const Registro& r, NombreTabla t);
 	void generarVistaJoin(const NombreTabla t1, const NombreTabla t2, const NombreCampo c);
-	Conj<Driver::Registro>::const_Iterador vistaJoin(const NombreTabla t1, const NombreTabla t2);
+	Conj<Registro>::const_Iterador vistaJoin(const NombreTabla t1, const NombreTabla t2);
 	void borrarJoin(const NombreTabla t1, const NombreTabla t2);
 	Conj<NombreTabla>::const_Iterador tablas();
 	Tabla& dameTabla(const NombreTabla t);
 	bool hayJoin(const NombreTabla t1, const NombreTabla t2);
 	NombreCampo campoJoin(const NombreTabla t1, const NombreTabla t2);
 	NombreTabla tablaMaxima(); //devuelve el nombre de la tabla con mayor acceso (tablaM)
-	Conj<Driver::Registro> buscar(const Driver::Registro& crit, const NombreTabla t);
+	Conj<Registro> buscar(const Registro& crit, const NombreTabla t);
 	void MostrarBaseDeDatos();
 
 
@@ -59,25 +59,25 @@ public:
 
  	struct tuplaCambios{
 		NombreTabla nTabla;
-		Driver::Registro r;
+		Registro r;
 		bool agregar;
 
-		tuplaCambios(NombreTabla n, Driver::Registro reg, bool a);	
+		tuplaCambios(NombreTabla n, Registro reg, bool a);
 	};
 
 	struct tuplaUnion{
-		Driver::Registro registroTablaUno;
-		Driver::Registro registroTablaDos;
-		Conj<Driver::Registro>::Iterador registroJoin;
+		Registro registroTablaUno;
+		Registro registroTablaDos;
+		Conj<Registro>::Iterador registroJoin;
 
-		tuplaUnion(Driver::Registro r1, Driver::Registro r2, Conj<Driver::Registro>::Iterador i);
+		tuplaUnion(Registro r1, Registro r2, Conj<Registro>::Iterador i);
 	};
 
-	
+
 
 	struct tuplaJoin{
 		NombreCampo cJoin;
-		Conj<Driver::Registro> vistaJoin;
+		Conj<Registro> vistaJoin;
 		Dicc<String, tuplaUnion> indiceS;
 		bool indiceSValido;
 		Dicc<Nat, tuplaUnion> indiceN;
@@ -88,7 +88,7 @@ public:
 
 		tuplaJoin(NombreCampo c, TipoCampo t, Conj<NombreTabla>::Iterador t1, Conj<NombreTabla>::Iterador t2);
 	};
-	
+
 
 	struct nodoJoin{
 		bool principal;
@@ -110,7 +110,7 @@ public:
  	//DicString<tuplaAux> arbolTablas;
  	NombreTabla tablaM;
  	Conj<NombreTabla> nTablas;
- 	Conj<Driver::Registro> vacio;
+ 	Conj<Registro> vacio;
 
 };
 

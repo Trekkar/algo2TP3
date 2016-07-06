@@ -37,58 +37,58 @@ int main(){
   NombreTabla a = pepito.nombreDeLaTabla();
 
  ////////////////////////////////////////////////REGISTRO 1:
-  Driver::Registro Runo;
-  Driver::Dato Dunoa = Driver::Dato("Emiliano");
+  Registro Runo;
+  Dato Dunoa = Dato("Emiliano");
   Runo.Definir(uno,Dunoa);
 
-  Driver::Dato Ddosa = Driver::Dato(21);
-  Runo.Definir(dos,Ddosa);	  
+  Dato Ddosa = Dato(21);
+  Runo.Definir(dos,Ddosa);
 
-  Driver::Dato Dtresa = Driver::Dato("Aiko");
+  Dato Dtresa = Dato("Aiko");
   Runo.Definir(tres,Dtresa);
 
   ////////////////////////////////////////////////REGISTRO 2:
-  Driver::Registro Rdos;
-  Driver::Dato Dunob = Driver::Dato("Lucas");
+  Registro Rdos;
+  Dato Dunob = Dato("Lucas");
   Rdos.Definir(uno,Dunob);
 
-  Driver::Dato Ddosb = Driver::Dato(20);
-  Rdos.Definir(dos,Ddosb);   
+  Dato Ddosb = Dato(20);
+  Rdos.Definir(dos,Ddosb);
 
-  Driver::Dato Dtresb = Driver::Dato("Yuno");
+  Dato Dtresb = Dato("Yuno");
   Rdos.Definir(tres,Dtresb);
 
 ////////////////////////////////////////////////REGISTRO 3:
-  Driver::Registro Rtres;
-  Driver::Dato Dunoc = Driver::Dato("Luis");
+  Registro Rtres;
+  Dato Dunoc = Dato("Luis");
   Rtres.Definir(uno,Dunoc);
 
-  Driver::Dato Ddosc = Driver::Dato(23);
-  Rtres.Definir(dos,Ddosc);   
+  Dato Ddosc = Dato(23);
+  Rtres.Definir(dos,Ddosc);
 
-  Driver::Dato Dtresc = Driver::Dato("Mikasa");
+  Dato Dtresc = Dato("Mikasa");
   Rtres.Definir(tres,Dtresc);
 
  ////////////////////////////////////////////////REGISTRO 4:
-  Driver::Registro Rcuatro;
-  Driver::Dato Dunod = Driver::Dato("Peter");
+  Registro Rcuatro;
+  Dato Dunod = Dato("Peter");
   Rcuatro.Definir(uno,Dunod);
 
-  Driver::Dato Ddosd = Driver::Dato(20);
-  Rcuatro.Definir(dos,Ddosd);    
+  Dato Ddosd = Dato(20);
+  Rcuatro.Definir(dos,Ddosd);
 
-  Driver::Dato Dtresd = Driver::Dato("Yuno");
+  Dato Dtresd = Dato("Yuno");
   Rcuatro.Definir(tres,Dtresd);
 
   ////////////////////////////////////////////////REGISTRO 5:
-  Driver::Registro Rcinco;
-  Driver::Dato Dunoe = Driver::Dato("Ian");
+  Registro Rcinco;
+  Dato Dunoe = Dato("Ian");
   Rcinco.Definir(uno,Dunoe);
 
-  Driver::Dato Ddose = Driver::Dato(20);
-  Rcinco.Definir(dos,Ddose);    
+  Dato Ddose = Dato(20);
+  Rcinco.Definir(dos,Ddose);
 
-  Driver::Dato Dtrese = Driver::Dato("Misa");
+  Dato Dtrese = Dato("Misa");
   Rcinco.Definir(tres,Dtrese);
 
 ///////////////////////////////////////////////////AGREGAR REGISTROS:
@@ -103,10 +103,10 @@ int main(){
   pepito.agregarRegistro(Rdos);
 
 /////////////////////////////////////////////////////INDEX:
-  pepito.indexar("Waifu"); 
+  pepito.indexar("Waifu");
   pepito.indexar("Edad");
 
-  
+
   //cout<< "CHECKPOINT" << endl;
 /////////////////////////////////////////////////MUESTRO TABLA:
   pepito.mostrarTabla();
