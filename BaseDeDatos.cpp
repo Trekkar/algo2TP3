@@ -76,7 +76,7 @@ bool registrosContenidos(const Registro& r1, const Registro& r2){
 
 /////////////////////////////////////////////////////////////////////////////////////////CONSTRUCTORES
 BaseDeDatos::BaseDeDatos(){
-	Dicc<NombreTabla, tuplaAux> d = Dicc<NombreTabla, tuplaAux>();
+	DicString<tuplaAux> d = DicString<tuplaAux>();
 	Conj<NombreTabla> t = Conj<NombreTabla>();
 
 	arbolTablas = d;
@@ -88,7 +88,7 @@ BaseDeDatos::~BaseDeDatos(){}
 
 BaseDeDatos::tuplaAux::tuplaAux(Tabla* t){
  	Conj<NombreTabla> c = Conj<NombreTabla>();
- 	Dicc<NombreTabla, nodoJoin> d = Dicc<NombreTabla, nodoJoin>();
+ 	DicString<nodoJoin> d = DicString<nodoJoin>();
 
  	tab = t;
  	nombresJoins = c;
@@ -103,8 +103,8 @@ BaseDeDatos::nodoJoin::nodoJoin(tuplaJoin* t, bool v){
 
 BaseDeDatos::tuplaJoin::tuplaJoin(NombreCampo c, TipoCampo t, Conj<NombreTabla>::Iterador t1, Conj<NombreTabla>::Iterador t2){
  	Conj<Registro> a = Conj<Registro>();
- 	Dicc<String, tuplaUnion> i = Dicc<String, tuplaUnion>();
- 	Dicc<Nat, tuplaUnion> j = Dicc<Nat, tuplaUnion>();
+ 	DicString<tuplaUnion> i = DicString<tuplaUnion>();
+ 	DicNat<Nat, tuplaUnion> j = DicNat<Nat, tuplaUnion>();
  	Lista<tuplaCambios> l = Lista<tuplaCambios>();
 
  	cJoin = c;

@@ -1,6 +1,7 @@
 #ifndef DRIVER_H_
 #define DRIVER_H_
 
+#include "BaseDeDatos.h"
 #include "Tipos.h"
 #include "aed2/Conj.h"
 #include "aed2/TiposBasicos.h"
@@ -243,7 +244,7 @@ class Driver
 
   private:
 
-  //	BaseDeDatos b;
+  	BaseDeDatos b;
     /************************************************************************
      * TODO: Va a ser necesario instanciar privadamente el Modulo principal *
      * con el cuál interactuar. Además, pueden declarar todas las           *

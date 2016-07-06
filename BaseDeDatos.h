@@ -78,9 +78,9 @@ public:
 	struct tuplaJoin{
 		NombreCampo cJoin;
 		Conj<Registro> vistaJoin;
-		Dicc<String, tuplaUnion> indiceS;
+		DicString<tuplaUnion> indiceS;
 		bool indiceSValido;
-		Dicc<Nat, tuplaUnion> indiceN;
+		DicNat<Nat, tuplaUnion> indiceN;
 		bool indiceNValido;
 		Lista<tuplaCambios> modificaciones; //ESTO TENDRIA QUE SER UNA COLA! Pero no esta implementada, asique usamos Lista
 		Conj<NombreTabla>::Iterador nombreJoint1;
@@ -100,13 +100,13 @@ public:
  	struct tuplaAux{
 		Tabla* tab; //puse un puntero porque no tenemos operador =
 		Conj<NombreTabla> nombresJoins;
-		Dicc<NombreTabla, nodoJoin> dicJoin;
+		DicString<nodoJoin> dicJoin;
 		//DicString<nodoJoin> j;
 
 		tuplaAux(Tabla* t);
 	};
 
- 	Dicc<NombreTabla, tuplaAux> arbolTablas;
+ 	DicString<tuplaAux> arbolTablas;
  	//DicString<tuplaAux> arbolTablas;
  	NombreTabla tablaM;
  	Conj<NombreTabla> nTablas;

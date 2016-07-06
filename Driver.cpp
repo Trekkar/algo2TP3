@@ -197,7 +197,9 @@ void Driver::crearIndiceString(const NombreTabla& tabla, const NombreCampo& camp
 
 bool Driver::hayJoin(const NombreTabla& tabla1, const NombreTabla& tabla2) const
 {
-  // TODO ...
+  //bool res;
+  //res = b.hayJoin(tabla1, tabla2);
+  //return res;
   assert(false);
 }
 
