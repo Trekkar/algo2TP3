@@ -1,5 +1,6 @@
 #include "Driver.h"
 #include "BaseDeDatos.cpp"
+#include <iostream>
 
 bool aed2::operator == (const aed2::Columna& c1, const aed2::Columna& c2)
 {
@@ -69,14 +70,10 @@ bool Driver::Dato::operator != (const Dato& otro) const
 Driver::Driver()
 {
   b = BaseDeDatos();
-  // TODO ...
-  assert(false);
 }
 
 Driver::~Driver()
 {
-  // TODO ...
-  assert(false);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -85,13 +82,17 @@ Driver::~Driver()
 
 void Driver::crearTabla(const NombreTabla& nombre, const aed2::Conj<Columna>& columnas, const aed2::Conj<NombreCampo>& claves)
 {
-  Tabla t = Tabla(nombre, columnas, claves);
-  b.agregarTabla(t);
+  cout << "crearTabla" << endl;
+  Tabla* t =  new Tabla(nombre, columnas, claves);
+  b.agregarTabla(*t);
 }
 
 void Driver::insertarRegistro(const NombreTabla& tabla, const Registro& registro)
 {
-  b.insertarEntrada(registro, tabla);
+  cout << "insertarRegistro" << endl;
+  NombreTabla t = tabla;
+  Registro r = Registro(registro);
+  b.insertarEntrada(r, t);
 }
 
 void Driver::borrarRegistro(const NombreTabla& tabla, const NombreCampo& columna, const Dato& valor)
@@ -170,6 +171,7 @@ aed2::Conj<NombreTabla> Driver::tablas() const
 
 NombreTabla Driver::tablaMaxima() const
 {
+  b.MostrarBaseDeDatos();
   return b.tablaMaxima();
 }
 
@@ -241,9 +243,10 @@ aed2::Conj<Registro> Driver::vistaJoin(const NombreTabla& tabla1, const NombreTa
   b.vistaJoin(tabla1, tabla2);
 }
 
-
+/*
 int main()
 {
   cout << "driver" << endl;
 	return 0;
 }
+*/

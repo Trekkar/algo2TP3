@@ -52,7 +52,7 @@ public:
 	NombreCampo campoJoin(const NombreTabla t1, const NombreTabla t2) const;
 	NombreTabla tablaMaxima() const; //devuelve el nombre de la tabla con mayor acceso (tablaM)
 	Conj<Registro> buscar(const Registro& crit, const NombreTabla t) const;
-	void MostrarBaseDeDatos();
+	void MostrarBaseDeDatos() const;
 
 
  private:

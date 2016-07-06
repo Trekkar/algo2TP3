@@ -84,7 +84,15 @@ BaseDeDatos::BaseDeDatos(){
 	nTablas = t;
 	vacio = Conj<Registro>();
 }
-BaseDeDatos::~BaseDeDatos(){}
+BaseDeDatos::~BaseDeDatos(){
+Conj<NombreTabla>::const_Iterador it = nTablas.CrearIt();
+
+while(it.HaySiguiente()){
+ delete((arbolTablas.Significado(it.Siguiente())).tab);
+ it.Avanzar();
+}
+
+}
 
 BaseDeDatos::tuplaAux::tuplaAux(Tabla* t){
  	Conj<NombreTabla> c = Conj<NombreTabla>();
@@ -299,7 +307,6 @@ void BaseDeDatos::insertarEntrada(const Registro r, const NombreTabla& t){
 	}
 
 	(*t1).agregarRegistro(r); //SE AGREGA AHORA, NO?
-
 
 	if (tablaM == "empty"){
 		tablaM = t;
@@ -596,7 +603,7 @@ Conj<Registro> BaseDeDatos::buscar(const Registro& r, const NombreTabla t) const
 	return (res);
 };
 
-void BaseDeDatos::MostrarBaseDeDatos(){
+void BaseDeDatos::MostrarBaseDeDatos() const{
 	cout << "**BIENVENIDO AL VISUALIZADOR DE BASE DE DATOS**" << endl;
 	cout << endl;
 	cout << "LAS TABLAS QUE EXISTENTES SON:" <<endl;
