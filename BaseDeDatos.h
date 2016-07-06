@@ -43,7 +43,7 @@ public:
 	void borrar(const Registro& r, NombreTabla t);
 	//void borrarRegistro(const Registro& r, NombreTabla t);
 	void generarVistaJoin(const NombreTabla t1, const NombreTabla t2, const NombreCampo c);
-	Conj<Registro>::const_Iterador vistaJoin(const NombreTabla t1, const NombreTabla t2);
+	Conj<Registro> vistaJoin(const NombreTabla t1, const NombreTabla t2);
 	void borrarJoin(const NombreTabla t1, const NombreTabla t2);
 	Conj<NombreTabla>::const_Iterador tablas();
 	Conj<NombreTabla> nombresTablas() const;

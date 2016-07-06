@@ -82,14 +82,14 @@ Driver::~Driver()
 
 void Driver::crearTabla(const NombreTabla& nombre, const aed2::Conj<Columna>& columnas, const aed2::Conj<NombreCampo>& claves)
 {
-  cout << "crearTabla" << endl;
+//  cout << "crearTabla" << endl;
   Tabla* t =  new Tabla(nombre, columnas, claves);
   b.agregarTabla(*t);
 }
 
 void Driver::insertarRegistro(const NombreTabla& tabla, const Registro& registro)
 {
-  cout << "insertarRegistro" << endl;
+//  cout << "insertarRegistro" << endl;
   NombreTabla t = tabla;
   Registro r = Registro(registro);
   b.insertarEntrada(r, t);
@@ -240,7 +240,9 @@ void Driver::borrarVistaJoin(const NombreTabla& tabla1, const NombreTabla& tabla
 
 aed2::Conj<Registro> Driver::vistaJoin(const NombreTabla& tabla1, const NombreTabla& tabla2)/* const*/
 {
-  b.vistaJoin(tabla1, tabla2);
+  
+  return b.vistaJoin(tabla1, tabla2);
+
 }
 
 /*

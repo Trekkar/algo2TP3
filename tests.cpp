@@ -283,9 +283,9 @@ int i = 0;
 while(i < 5){
   col.nombre = campos1[i];
     if((i % 2) == 0){
-      col.tipo = NAT;
-    }else{
       col.tipo = STR;
+    }else{
+      col.tipo = NAT;
     }
   columnas1.AgregarRapido(col);
   i++;
@@ -327,9 +327,9 @@ i = 0;
 while(i < 8){
   col.nombre = campos2[i];
     if((i % 2) == 0){
-      col.tipo = NAT;
-    }else{
       col.tipo = STR;
+    }else{
+      col.tipo = NAT;
     }
   columnas2.AgregarRapido(col);
   i++;
@@ -341,7 +341,7 @@ NombreTabla nombreSegunda = "segunda";
 
 b.crearTabla(nombreSegunda, columnas2, claves2);
 
-
+/*
 Conj<NombreTabla> tablas = b.tablas();
 Conj<NombreTabla>::const_Iterador it = tablas.CrearIt();
 
@@ -349,11 +349,10 @@ while(it.HaySiguiente()){
 cout << it.Siguiente() << endl;
 it.Avanzar();  
 }
-
+*/
  
 i = 0;
 j = 0;
-/*
   while(i<5){
         r = Registro();
         r.Definir(campos2[0], valoresCampo12[i]);
@@ -367,6 +366,41 @@ j = 0;
     b.insertarRegistro(nombreSegunda, r);
     i++;
   } 
-*/
+
+NombreCampo naux = "house";
+Dato dataux = Dato("martell");
+
+NombreCampo libreta = "librohp";
+NombreCampo libretaU = "lu";
+//b.borrarRegistro(nombreSegunda, naux , dataux);
+
+
+
+b.crearIndiceNat(nombreSegunda, libreta);
+b.crearIndiceString(nombreSegunda, naux);
+Dato seis = Dato(6);
+
+
+
+b.generarVistaJoin(nombrePrimera, nombreSegunda, libretaU);
+b.borrarRegistro(nombreSegunda, libreta, seis);
+b.insertarRegistro(nombreSegunda, r);
+
+b.vistaJoin(nombrePrimera, nombreSegunda);
+b.tablaMaxima();
+
+
   return 0;
 }
+
+
+
+
+
+
+
+
+
+
+
+

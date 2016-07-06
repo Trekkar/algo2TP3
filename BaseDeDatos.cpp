@@ -57,9 +57,8 @@ bool registroVacio(const Registro& r){
 ///////////////////////////////////////////////////FUNCION AUXILIAR REGISTROS CONTENIDOS
 bool registrosContenidos(const Registro& r1, const Registro& r2){
 	Registro::const_Iterador it = r1.CrearIt();
-	cout<< "IN-CHECKPOINTOH" << endl;
 		while(it.HaySiguiente()){
-			cout << it.SiguienteClave() << endl;
+//			cout << it.SiguienteClave() << endl;
 			if(!(r2.Definido((it.SiguienteClave())))){
 				return false;
 			}else{
@@ -69,7 +68,6 @@ bool registrosContenidos(const Registro& r1, const Registro& r2){
 			}
 			it.Avanzar();
 		}
-		cout<< "OUT-CHECKPOINTOH" << endl;
 		return true; //devuelve true si r1 esta contenido en r2 (hangyaku no lelouch)
 }
 ///////////////////////////////////////////////////FUNCION AUXILIAR REGISTROS CONTENIDOS
@@ -86,12 +84,27 @@ BaseDeDatos::BaseDeDatos(){
 }
 BaseDeDatos::~BaseDeDatos(){
 Conj<NombreTabla>::const_Iterador it = nTablas.CrearIt();
+	
+	while(it.HaySiguiente()){
+ 
+		Conj<NombreTabla> nombres = (arbolTablas.Significado(it.Siguiente())).nombresJoins;
+		Conj<NombreTabla>::const_Iterador itJoin = nombres.CrearIt();
+		
+		while(itJoin.HaySiguiente()){
+			if (((((arbolTablas.Significado(it.Siguiente()))).dicJoin).Significado(itJoin.Siguiente())).principal){
+				borrarJoin(it.Siguiente(), itJoin.Siguiente());	
+			}
+			itJoin.Avanzar();	
+			}
+		it.Avanzar();
+	}	
 
-while(it.HaySiguiente()){
- delete((arbolTablas.Significado(it.Siguiente())).tab);
- it.Avanzar();
-}
-
+	Conj<NombreTabla>::const_Iterador it2 = nTablas.CrearIt();
+	while(it2.HaySiguiente()){
+ 	delete((arbolTablas.Significado(it2.Siguiente())).tab);
+ 	it2.Avanzar();
+ 	}
+	
 }
 
 BaseDeDatos::tuplaAux::tuplaAux(Tabla* t){
@@ -381,7 +394,7 @@ void BaseDeDatos::borrarRegistro(const Registro& r, NombreTabla t){
 }
 */
 
-Conj<Registro>::const_Iterador BaseDeDatos::vistaJoin(const NombreTabla t1, const NombreTabla t2){
+Conj<Registro> BaseDeDatos::vistaJoin(const NombreTabla t1, const NombreTabla t2){
 	tuplaJoin* tj = (((arbolTablas.Significado(t1)).dicJoin).Significado(t2)).p;
 	Lista<tuplaCambios>::Iterador it = (tj->modificaciones).CrearIt();
 
@@ -420,13 +433,14 @@ Conj<Registro>::const_Iterador BaseDeDatos::vistaJoin(const NombreTabla t1, cons
 
 						Nat parametro = (((it.Siguiente()).r).Significado(tj->cJoin)).dameNat();
 
+						cout << parametro << endl;
+
 						if((tj->indiceN).Definido(parametro)){													//CASO ESTA DEFINIDO (para la otra tabla)
 //							cout << "esta definido para la otra tabla" << endl;
 							((tj->indiceN).Significado(parametro)).registroTablaUno = (it.Siguiente()).r;
 							Registro registroUnido = unirRegistros(((it.Siguiente()).r), ((tj->indiceN).Significado(parametro)).registroTablaDos);
 							Conj<Registro>::Iterador iteradorJoin = (tj->vistaJoin).AgregarRapido(registroUnido);
 							((tj->indiceN).Significado(parametro)).registroJoin = iteradorJoin;
-
 						}else{																					//CASO NO ESTA DEFINIDO (para la otra tabla)
 //							cout << "no esta definido para la otra tabla" << endl;
 							Registro regvacio = Registro();
@@ -502,7 +516,7 @@ Conj<Registro>::const_Iterador BaseDeDatos::vistaJoin(const NombreTabla t1, cons
 							}
 
 					}else{																						//CASO INDICE NAT
-						//cout << "indice nat" << endl;
+//						cout << "indice nat" << endl;
 
 						Nat parametro = (((it.Siguiente()).r).Significado(tj->cJoin)).dameNat();
 
@@ -547,8 +561,8 @@ Conj<Registro>::const_Iterador BaseDeDatos::vistaJoin(const NombreTabla t1, cons
 
 		it.Avanzar();
 		};
-
-		return (tj->vistaJoin).CrearIt();
+		Conj<Registro> conjuntoregistros = Conj<Registro>(tj->vistaJoin);
+		return conjuntoregistros;
 };
 
 Conj<Registro> BaseDeDatos::buscar(const Registro& r, const NombreTabla t) const{
@@ -586,8 +600,8 @@ Conj<Registro> BaseDeDatos::buscar(const Registro& r, const NombreTabla t) const
 					}
 					return res;
 				}
-			itIndices.Avanzar();
 			}
+			itIndices.Avanzar();
 		}
 
 	//cout << "SEGUNDO WHILE" << endl;
