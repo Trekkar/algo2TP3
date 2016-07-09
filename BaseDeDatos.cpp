@@ -518,17 +518,17 @@ Conj<Registro> BaseDeDatos::vistaJoin(const NombreTabla t1, const NombreTabla t2
 				}
 
 			}else{																								//CASO BORRAR
-				cout << "borrar" << endl;
+//				cout << "borrar" << endl;
 
 				if(((it.Siguiente()).nTabla) == t1){															//CASO TABLA1
-					cout << "tabla1" << endl;
+//					cout << "tabla1" << endl;
 
 					if(tj->indiceSValido){																		//CASO INDICE STRING
-						cout << "indice string" << endl;
+//						cout << "indice string" << endl;
 
 						String parametro = (((it.Siguiente()).r).Significado(tj->cJoin)).dameString();
 
-							cout << "esta definido para la otra tabla" << endl;
+//							cout << "esta definido para la otra tabla" << endl;
 							((tj->indiceS).Significado(parametro)).registroTablaUno = Registro();
 							Conj<Registro>::Iterador iteradorJoin = ((tj->indiceS).Significado(parametro)).registroJoin;
 							if(iteradorJoin.HaySiguiente()){													//CASO SI ESTAN UNIDOS
@@ -538,11 +538,11 @@ Conj<Registro> BaseDeDatos::vistaJoin(const NombreTabla t1, const NombreTabla t2
 							}
 
 					}else{																						//CASO INDICE NAT
-						cout << "indice nat" << endl;
+//						cout << "indice nat" << endl;
 
 						Nat parametro = (((it.Siguiente()).r).Significado(tj->cJoin)).dameNat();
 
-							cout << "esta definido para la otra tabla" << endl;
+//							cout << "esta definido para la otra tabla" << endl;
 							((tj->indiceN).Significado(parametro)).registroTablaUno = Registro();
 							Conj<Registro>::Iterador iteradorJoin = ((tj->indiceN).Significado(parametro)).registroJoin;
 							if(iteradorJoin.HaySiguiente()){													//CASO SI ESTAN UNIDOS
@@ -554,10 +554,10 @@ Conj<Registro> BaseDeDatos::vistaJoin(const NombreTabla t1, const NombreTabla t2
 					}
 
 				}else{																							//CASO TABLA2
-					cout << "tabla2" << endl;
+//					cout << "tabla2" << endl;
 
 					if(tj->indiceSValido){																		//CASO INDICE STRING
-						cout << "indice string" << endl;
+//						cout << "indice string" << endl;
 						String parametro = (((it.Siguiente()).r).Significado(tj->cJoin)).dameString();
 						((tj->indiceS).Significado(parametro)).registroTablaDos = Registro();
 						Conj<Registro>::Iterador iteradorJoin = ((tj->indiceS).Significado(parametro)).registroJoin;
@@ -568,7 +568,7 @@ Conj<Registro> BaseDeDatos::vistaJoin(const NombreTabla t1, const NombreTabla t2
 							}
 
 					}else{																						//CASO INDICE NAT
-						cout << "indice nat" << endl;
+//						cout << "indice nat" << endl;
 						Nat parametro = (((it.Siguiente()).r).Significado(tj->cJoin)).dameNat();
 						((tj->indiceN).Significado(parametro)).registroTablaDos = Registro();
 						Conj<Registro>::Iterador iteradorJoin = ((tj->indiceN).Significado(parametro)).registroJoin;
