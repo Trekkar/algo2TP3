@@ -55,7 +55,7 @@ String valoresCampo12 [5] = {"ramones", "queen", "guns", "acdc", "beatles" };
 Nat valoresCampo22 [5] = {100, 254, 138, 345, 64};
 String valoresCampo32 [5] = {"tetraedro", "piramide", "cilindro", "esfera", "cubo"};
 Nat valoresCampo42 [5] = {64, 2, 128, 4096, 1024};
-String valoresCampo52 [5] = {"kripton", "xenon", "argon", "helio", "neon"};
+String valoresCampo52 [5] = {"kripton", "xenon", "radon", "neon", "helio"};
 Nat valoresCampo62 [5] = {39, 40, 42, 40, 45};
 String valoresCampo72 [5] = {"lannister", "martell", "ulryden", "payne", "baelish"};
 Nat valoresCampo82 [5] = {1, 6, 6, 7, 6};
@@ -81,7 +81,7 @@ b.crearTabla(nombreSegunda, columnas2, claves2);
  
 i = 0;
 j = 0;
-  while(i<5){
+  while(i<4){
         r = Registro();
         r.Definir(campos2[0], valoresCampo12[i]);
         r.Definir(campos2[1], valoresCampo22[i]);
@@ -161,10 +161,44 @@ j = 0;
 
 
 
+
 //TEST 3:
   cout << endl;
   cout << "TEST 3:" << endl;
 
+  NombreCampo gasnoble = "gasnoble";
+  b.crearIndiceString(nombreSegunda, gasnoble);
+
+  //El gas noble minimo deberia ser krypton, ya que entre mas cerca de la letra "a" este, menor sera. 
+
+  cout << "EL MINIMO ES: " << (b.minimo(nombreSegunda,lu)).dameString() << endl;
+
+    r = Registro();
+    r.Definir(campos2[0], valoresCampo12[4]);
+    r.Definir(campos2[1], valoresCampo22[4]);
+    r.Definir(campos2[2], valoresCampo32[4]);
+    r.Definir(campos2[3], valoresCampo42[4]);
+    r.Definir(campos2[4], valoresCampo52[4]);
+    r.Definir(campos2[5], valoresCampo62[4]);
+    r.Definir(campos2[6], valoresCampo72[4]);
+    r.Definir(campos2[7], valoresCampo82[4]);
+    b.insertarRegistro(nombreSegunda, r);
+
+  //Ahora agrego un registro con el gas noble helio, deberia ser el minimo porque h < k
+
+  cout << "EL MINIMO ES: " << (b.minimo(nombreSegunda,lu)).dameString() << endl;
+
+  //Voy a borrarlo, y krypton deberia ser el menor nuevamente
+
+  b.borrarRegistro(nombreSegunda, gasnoble, Dato("helio"));
+  cout << "EL MINIMO ES: " << (b.minimo(nombreSegunda,lu)).dameString() << endl;  
+
+
+
+
+//TEST 3:
+  cout << endl;
+  cout << "TEST 4:" << endl;
 
   return 0;
 }
