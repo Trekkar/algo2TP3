@@ -210,7 +210,8 @@ class Tabla {
             Conj<Registro>::Iterador it = registrosT.Agregar(r);
             Lista<tuplaIt>::Iterador itVac = Vacio.CrearIt();
 
-            if((EstaIndiceN) && (!EstaIndiceS)){
+            if((!EstaIndiceN) && (EstaIndiceS)){
+//        cout << "SOLO INDICE STR" << endl;
                 tuplaIt tupla = tuplaIt(it, itVac);
                 if(!(DicIndiceS.Definido((r.Significado(CamIndiceS)).dameString()))){
                     Lista<tuplaIt> conjVac = Lista<tuplaIt>();
@@ -220,13 +221,10 @@ class Tabla {
                 Agregar((DicIndiceS.Significado((r.Significado(CamIndiceS)).dameString())), tupla);
                 minDatoString = DicIndiceS.MinClave();    // CUANDO ESTE LISTO TRIE
                 maxDatoString = DicIndiceS.MaxClave();      //CUANDO ESTE LISTO TRIE
-
-                //minDatoString = max(DicIndiceS);      CUANDO ESTE LISTO TRIE
-                //maxDatoString = min(DicIndiceS);      CUANDO ESTE LISTO TRIE
-                //TENGO QUE HACER DELETE DE TUPLAIT? CONJ LO COPIA O LO AGREGA DIRECTO?
             }
 
-            if((!EstaIndiceN) && (EstaIndiceS)){
+            if((EstaIndiceN) && (!EstaIndiceS)){
+//        cout << "SOLO INDICE NAT" << endl;
                 tuplaIt tupla = tuplaIt(it, itVac);
                 if(!(DicIndiceN.Definido((r.Significado(CamIndiceN)).dameNat()))){
                     Lista<tuplaIt> conjVac = Lista<tuplaIt>();
@@ -236,12 +234,10 @@ class Tabla {
                 Agregar((DicIndiceN.Significado((r.Significado(CamIndiceN)).dameNat())), tupla);
                 minDatoNat = DicIndiceN.Min();
                 maxDatoNat = DicIndiceN.Max();
-
-                //minDatoNat = max(DicIndiceN);     CUANDO ESTE LISTO ABB
-                //maxDatoNat = min(DicIndiceN);     CUANDO ESTE LISTO ABB
             }
 
             if((EstaIndiceN) && (EstaIndiceS)){
+//        cout << "AMBOS INDICES" << endl;
                 tuplaIt tuplaN = tuplaIt(it, itVac);
                 if(!(DicIndiceN.Definido((r.Significado(CamIndiceN)).dameNat()))){
                     Lista<tuplaIt> conjVac = Lista<tuplaIt>();
@@ -260,13 +256,10 @@ class Tabla {
 
                 (actual.Siguiente()).cambiarOA(vecino);
 
-                //OJO, ESTOY ASUMIENDO QUE SI AGREGO UN ELEMENTO A UN CONJUNTO Y LE PREGUNTO "SIGUIENTE"
-                //AL ITERADOR QUE ME DEVUELVE, ME VA A DEVOLVER EL ELEMENTO QUE ACABO DE AGREGAR
-
                  minDatoNat = DicIndiceN.Min();
                  maxDatoNat = DicIndiceN.Max();
-                 minDatoString = DicIndiceS.MinClave();     // CUANDO ESTE LISTO TRIE
-                 maxDatoString = DicIndiceS.MaxClave();     //CUANDO ESTE LISTO TRIE
+                 minDatoString = DicIndiceS.MinClave();
+                 maxDatoString = DicIndiceS.MaxClave();
 
 
 
