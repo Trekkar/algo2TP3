@@ -271,9 +271,22 @@ j = 0;
 
 
   //Borro todo y me quedo con el join vacio  
-  cout  << "Ahora borro todos los registros para que el join me quede vacio" <<  endl;
+  cout  << "Ahora borro el registro con lu = 100. Se me borra uno del join" <<  endl;
   b.borrarRegistro(nombreSegunda, lu, Dato(100));
-  b.borrarRegistro(nombreSegunda, lu, Dato(155));  
+
+  Conj<Registro> vista4 = b.vistaJoin(nombrePrimera, nombreSegunda);
+  Conj<Registro>::Iterador it4 = vista4.CrearIt();
+  cout << "Muestro el Join: " << endl;
+    while(it4.HaySiguiente()){
+        mostrarReg(it4.Siguiente());
+        it4.Avanzar();
+    } 
+
+
+
+
+  cout  << "Ahora borro todos los registros para que el join me quede vacio" <<  endl;
+  b.borrarRegistro(nombreSegunda, lu, Dato(155));
   b.borrarRegistro(nombreSegunda, lu, Dato(255));
 
  // b.tablaMaxima();
