@@ -52,7 +52,7 @@ Registro r = Registro();
 
 NombreCampo campos2 [8] = {"banda", "lu", "figura", "numerocuadrado", "gasnoble", "zapato", "house", "librohp"};
 String valoresCampo12 [5] = {"ramones", "queen", "guns", "acdc", "beatles" };
-Nat valoresCampo22 [5] = {100, 254, 138, 345, 64};
+Nat valoresCampo22 [5] = {100, 255, 138, 354, 64};
 String valoresCampo32 [5] = {"tetraedro", "piramide", "cilindro", "esfera", "cubo"};
 Nat valoresCampo42 [5] = {64, 2, 128, 4096, 1024};
 String valoresCampo52 [5] = {"kripton", "xenon", "radon", "neon", "helio"};
@@ -131,8 +131,7 @@ j = 0;
   cout << "EL MINIMO ES: " << (b.minimo(nombrePrimera,lu)).dameNat() << endl;
 
 
-
-
+ 
 //TEST 2:
 
   cout << endl;
@@ -159,6 +158,8 @@ j = 0;
   b.borrarRegistro(nombrePrimera, lu, Dato(354));
   cout << "EL MAXIMO ES: " << (b.maximo(nombrePrimera,lu)).dameNat() << endl;
 
+  //b.insertarRegistro(nombrePrimera, )
+ 
 
 
 
@@ -199,6 +200,78 @@ j = 0;
 //TEST 4:
   cout << endl;
   cout << "TEST 4:" << endl;
+
+
+  //hago join primera-segunda
+  b.generarVistaJoin(nombrePrimera, nombreSegunda, lu);
+  //Chequeo que existe uno y no el otro
+  cout << "Tiene que mostrar un 1 ---> " << b.hayJoin(nombrePrimera, nombreSegunda) << endl;
+  cout << "Tiene que mostrar un 0 ---> " << b.hayJoin(nombreSegunda, nombrePrimera) << endl;
+  //hago join segunda-primera
+  b.generarVistaJoin(nombreSegunda, nombrePrimera, lu);
+  //chequeo que ambos joins 
+  cout << "Tiene que mostrar un 1 ---> " << b.hayJoin(nombrePrimera, nombreSegunda) << endl;
+  cout << "Tiene que mostrar un 1 ---> " << b.hayJoin(nombreSegunda, nombrePrimera) << endl;
+  //borro el join segunda-primera
+  b.borrarVistaJoin(nombreSegunda, nombrePrimera);
+  //quedo solo el primer join
+  cout << "Tiene que mostrar un 1 ---> " << b.hayJoin(nombrePrimera, nombreSegunda) << endl;
+  cout << "Tiene que mostrar un 0 ---> " << b.hayJoin(nombreSegunda, nombrePrimera) << endl;
+  //borro el primer join
+  b.borrarVistaJoin(nombrePrimera, nombreSegunda);
+  //no quedo ningun join
+  cout << "Tiene que mostrar un 0 ---> " << b.hayJoin(nombrePrimera, nombreSegunda) << endl;
+  cout << "Tiene que mostrar un 0 ---> " << b.hayJoin(nombreSegunda, nombrePrimera) << endl;
+
+
+//TEST 5:
+  cout << endl;
+  cout << "TEST 4:" << endl;
+  b.generarVistaJoin(nombrePrimera, nombreSegunda, lu);
+  Conj<Registro> vista = b.vistaJoin(nombrePrimera, nombreSegunda);
+  Conj<Registro>::Iterador it = vista.CrearIt();
+  cout << "Muestro el Join: " << endl;
+    while(it.HaySiguiente()){
+        mostrarReg(it.Siguiente());
+        it.Avanzar();
+    }
+
+
+
+  cout << "Agrego un registro DE L.U 155" << endl;
+    Registro h = Registro();
+    h.Definir(campos2[0], valoresCampo12[4]);
+    h.Definir(campos2[1], Dato(155));
+    h.Definir(campos2[2], valoresCampo32[4]);
+    h.Definir(campos2[3], valoresCampo42[4]);
+    h.Definir(campos2[4], valoresCampo52[4]);
+    h.Definir(campos2[5], valoresCampo62[4]);
+    h.Definir(campos2[6], valoresCampo72[4]);
+    h.Definir(campos2[7], valoresCampo82[4]);
+    b.insertarRegistro(nombreSegunda, h);
+
+  cout  << "Ahora el join debe tener un nuevo registro" <<  endl;
+
+  b.tablaMaxima();
+
+
+
+
+  Conj<Registro> vista2 = b.vistaJoin(nombrePrimera, nombreSegunda);
+  Conj<Registro>::Iterador it2 = vista.CrearIt();
+  cout << "Muestro el Join: " << endl;
+    while(it2.HaySiguiente()){
+        mostrarReg(it2.Siguiente());
+        it2.Avanzar();
+    }
+
+
+
+
+
+
+
+
 
   return 0;
 }

@@ -84,18 +84,26 @@ BaseDeDatos::BaseDeDatos(){
 }
 BaseDeDatos::~BaseDeDatos(){
 Conj<NombreTabla>::const_Iterador it = nTablas.CrearIt();
-	
 	while(it.HaySiguiente()){
- 
+ 	
+ 		//ITERADOR DE LOS NOMBRES CON LOS QUE HIZO JOIN 
 		Conj<NombreTabla> nombres = (arbolTablas.Significado(it.Siguiente())).nombresJoins;
 		Conj<NombreTabla>::const_Iterador itJoin = nombres.CrearIt();
 		
 		while(itJoin.HaySiguiente()){
-			if (((((arbolTablas.Significado(it.Siguiente()))).dicJoin).Significado(itJoin.Siguiente())).principal){
+			
+			//((((arbolTablas.Significado(it.Siguiente()))).dicJoin).Significado(itJoin.Siguiente())).principal
+			if (hayJoin(it.Siguiente(), itJoin.Siguiente())){
+				if (hayJoin(itJoin.Siguiente(), it.Siguiente())){
+					
+					borrarJoin(itJoin.Siguiente(), it.Siguiente());
+				}else{
+					
 				borrarJoin(it.Siguiente(), itJoin.Siguiente());	
+				}
 			}
 			itJoin.Avanzar();	
-			}
+		}
 		it.Avanzar();
 	}	
 
@@ -210,14 +218,19 @@ void BaseDeDatos::agregarTabla(Tabla& t){
 };
 
 void BaseDeDatos::borrarJoin(const NombreTabla t1, const NombreTabla t2){
-	tuplaJoin* a = (((arbolTablas.Significado(t1)).dicJoin).Significado(t2)).p;
-	(a->nombreJoint1).EliminarSiguiente(); //WARNING! SI SE INDEFINE BORRANDO UN ELEMENTO EXPLOTA TODO!
-	(a->nombreJoint2).EliminarSiguiente();
-	delete a;
-	((arbolTablas.Significado(t1)).dicJoin).Borrar(t2);
-	((arbolTablas.Significado(t2)).dicJoin).Borrar(t1);
+	if (hayJoin(t2, t1))
+	{
+		((arbolTablas.Significado(t1)).dicJoin).Significado(t2).principal = false;
+	}else{
 
+		tuplaJoin* a = (((arbolTablas.Significado(t1)).dicJoin).Significado(t2)).p;
+		(a->nombreJoint1).EliminarSiguiente(); //WARNING! SI SE INDEFINE BORRANDO UN ELEMENTO EXPLOTA TODO!
+		(a->nombreJoint2).EliminarSiguiente();
+		delete a;
+		((arbolTablas.Significado(t1)).dicJoin).Borrar(t2);
+		((arbolTablas.Significado(t2)).dicJoin).Borrar(t1);
 
+	}
 	// tuplaJoin* b = (((arbolTablas.Significado(t2)).dicJoin).Significado(t1)).p;
 	// //WARNING! SI SE INDEFINE BORRANDO UN ELEMENTO EXPLOTA TODO!
 	// delete b;
@@ -229,7 +242,7 @@ void BaseDeDatos::generarVistaJoin(const NombreTabla t1, const NombreTabla t2, c
 	Conj<NombreTabla>::Iterador c1 = ((arbolTablas.Significado(t2)).nombresJoins).AgregarRapido(t1);
 	Tabla* te1 = (arbolTablas.Significado(t1)).tab;
 	Tabla* te2 = (arbolTablas.Significado(t2)).tab;
-
+ 	
 
 	TipoCampo tc;
 	if ((*te1).tipoCampo(c))
@@ -237,38 +250,44 @@ void BaseDeDatos::generarVistaJoin(const NombreTabla t1, const NombreTabla t2, c
 		tc = NAT;
 	}else{
 		tc = STR;
+
 	};
 
-	tuplaJoin* tj = new tuplaJoin(c, tc, c1, c2);
+	if (hayJoin(t2, t1))
+	{
+		((arbolTablas.Significado(t1)).dicJoin).Significado(t2).principal = true;
+	} else {
 
-	nodoJoin nj1 = nodoJoin(tj, true);
-	nodoJoin nj2 = nodoJoin(tj, false);
+		tuplaJoin* tj = new tuplaJoin(c, tc, c1, c2);
 
-	(((arbolTablas.Significado(t1)).dicJoin).Definir(t2, nj1));
-	(((arbolTablas.Significado(t2)).dicJoin).Definir(t1, nj2));
+		nodoJoin nj1 = nodoJoin(tj, true);
+		nodoJoin nj2 = nodoJoin(tj, false);
 
-	Conj<Registro> regsit1 = ((*te1).registros());
-	Conj<Registro> regsit2 = ((*te2).registros());
+		(((arbolTablas.Significado(t1)).dicJoin).Definir(t2, nj1));
+		(((arbolTablas.Significado(t2)).dicJoin).Definir(t1, nj2));
 
-	Conj<Registro>::Iterador it1 = regsit1.CrearIt();
-	Conj<Registro>::Iterador it2 = regsit2.CrearIt();
+		Conj<Registro> regsit1 = ((*te1).registros());
+		Conj<Registro> regsit2 = ((*te2).registros());
 
+		Conj<Registro>::Iterador it1 = regsit1.CrearIt();
+		Conj<Registro>::Iterador it2 = regsit2.CrearIt();
 
-	// Dicc<String, tuplaUnion> indiceS;
-	// Dicc<Nat, tuplaUnion> indiceN;
+		// Dicc<String, tuplaUnion> indiceS;
+		// Dicc<Nat, tuplaUnion> indiceN;
 
-	Conj<Registro>::Iterador v = vacio.CrearIt();
-	while(it1.HaySiguiente()){
-		Registro regvacio = Registro();
-		tuplaUnion tu = tuplaUnion(it1.Siguiente(), regvacio, v);
+		Conj<Registro>::Iterador v = vacio.CrearIt();
+		while(it1.HaySiguiente()){
+			Registro regvacio = Registro();
+			tuplaUnion tu = tuplaUnion(it1.Siguiente(), regvacio, v);
 
-		if (tc == STR){
-			(tj->indiceS).Definir(((it1.Siguiente()).Significado(c)).dameString(), tu);
-		}else{
-			(tj->indiceN).Definir(((it1.Siguiente()).Significado(c)).dameNat(), tu);
-		}
-		it1.Avanzar();
-	};
+			if (tc == STR){
+				(tj->indiceS).Definir(((it1.Siguiente()).Significado(c)).dameString(), tu);
+			}else{
+				(tj->indiceN).Definir(((it1.Siguiente()).Significado(c)).dameNat(), tu);
+
+			}
+			it1.Avanzar();
+		};
 
 
 		while(it2.HaySiguiente()){
@@ -299,7 +318,8 @@ void BaseDeDatos::generarVistaJoin(const NombreTabla t1, const NombreTabla t2, c
 			}
 		}
 		it2.Avanzar();
-	};
+		};
+	}
 }
 
 
@@ -315,6 +335,8 @@ void BaseDeDatos::insertarEntrada(const Registro r, const NombreTabla& t){
 
 	while(it.HaySiguiente()){
 		tuplaJoin* a = (((arbolTablas.Significado(t)).dicJoin).Significado(it.Siguiente())).p;
+		cout << "INSERTASTE ALGO EN LA TABLA!" << endl;
+		cout << it.Siguiente() << endl;
 		(a->modificaciones).AgregarAtras(cam);
 		it.Avanzar();
 	}
