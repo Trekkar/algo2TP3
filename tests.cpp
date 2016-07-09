@@ -252,26 +252,37 @@ j = 0;
 
   cout  << "Ahora el join debe tener un nuevo registro" <<  endl;
 
-  b.tablaMaxima();
-
-
-
+  //b.tablaMaxima();
 
   Conj<Registro> vista2 = b.vistaJoin(nombrePrimera, nombreSegunda);
-  Conj<Registro>::Iterador it2 = vista.CrearIt();
+  Conj<Registro>::Iterador it2 = vista2.CrearIt();
   cout << "Muestro el Join: " << endl;
     while(it2.HaySiguiente()){
         mostrarReg(it2.Siguiente());
         it2.Avanzar();
     }
 
+ 
+  cout  << "Ahora borro todos los registros para que el join me quede vacio" <<  endl;
+  b.borrarRegistro(nombreSegunda, lu, Dato(100));
+  //b.borrarRegistro(nombreSegunda, lu, 155);
+  //b.borrarRegistro(nombrePrimera, lu, Dato(255));
 
+  Conj<Registro> vista3 = b.vistaJoin(nombrePrimera, nombreSegunda);
+  Conj<Registro>::Iterador it3 = vista3.CrearIt();
+  cout << "Muestro el Join: " << endl;
+    if (!(it3.HaySiguiente())){
+      
+      cout << "JOIN VACIO!" << endl;
+    
+    }else{
+      while(it3.HaySiguiente()){
+          mostrarReg(it3.Siguiente());
+          it3.Avanzar();
+      }
+    }
 
-
-
-
-
-
+  
 
   return 0;
 }
