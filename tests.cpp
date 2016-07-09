@@ -130,7 +130,7 @@ j = 0;
   b.borrarRegistro(nombrePrimera, lu, Dato(14));
   cout << "EL MINIMO ES: " << (b.minimo(nombrePrimera,lu)).dameNat() << endl;
 
-
+ // b.insertarRegistro(nombrePrimera, r);
  
 //TEST 2:
 
@@ -225,7 +225,7 @@ j = 0;
 
 
   //CHEQUEO QUE NO HAYA NOMBRES EN LOS JOINS
- 
+
 
 
 
@@ -234,6 +234,8 @@ j = 0;
 //TEST 5:
   cout << endl;
   cout << "TEST 5:" << endl;
+
+  //Hago un join y muestro su vista join.
   b.generarVistaJoin(nombrePrimera, nombreSegunda, lu);
   Conj<Registro> vista = b.vistaJoin(nombrePrimera, nombreSegunda);
   Conj<Registro>::Iterador it = vista.CrearIt();
@@ -244,7 +246,7 @@ j = 0;
     }
 
 
-
+//Agrego un registro nuevo, asi se genera un nuevo registro en la vista join
   cout << "Agrego un registro DE L.U 155" << endl;
     Registro h = Registro();
     h.Definir(campos2[0], valoresCampo12[4]);
@@ -259,8 +261,6 @@ j = 0;
 
   cout  << "Ahora el join debe tener un nuevo registro" <<  endl;
 
-  //b.tablaMaxima();
-
   Conj<Registro> vista2 = b.vistaJoin(nombrePrimera, nombreSegunda);
   Conj<Registro>::Iterador it2 = vista2.CrearIt();
   cout << "Muestro el Join: " << endl;
@@ -270,12 +270,17 @@ j = 0;
     } 
 
 
- 
+  //Borro todo y me quedo con el join vacio  
   cout  << "Ahora borro todos los registros para que el join me quede vacio" <<  endl;
   b.borrarRegistro(nombreSegunda, lu, Dato(100));
-  b.borrarRegistro(nombreSegunda, lu, Dato(155));
-  b.borrarRegistro(nombrePrimera, lu, Dato(255));
-  cout << "CHECK" << endl;
+  b.borrarRegistro(nombreSegunda, lu, Dato(155));  
+  b.borrarRegistro(nombreSegunda, lu, Dato(255));
+
+ // b.tablaMaxima();
+  
+ // cout << "CHECK" << endl;
+
+
   Conj<Registro> vista3 = b.vistaJoin(nombrePrimera, nombreSegunda);
   Conj<Registro>::Iterador it3 = vista3.CrearIt();
   cout << "Muestro el Join: " << endl;
@@ -290,7 +295,7 @@ j = 0;
       }
     } 
 
-  
+    //b.tablaMaxima();
 
   return 0;
 }
