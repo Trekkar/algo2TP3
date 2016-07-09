@@ -291,7 +291,7 @@ class Tabla {
 
         		String valorString = (r.Significado(CamIndiceS)).dameString();
 
-        			if((DicIndiceS.Significado(valorString)).EsVacio()){
+        			if((DicIndiceS.Significado(valorString)).EsVacia()){
         				DicIndiceS.Borrar(valorString);
         			}
 
@@ -303,7 +303,7 @@ class Tabla {
         		((it.Siguiente()).CR()).EliminarSiguiente();
         		it.EliminarSiguiente();
 
-        		if((DicIndiceN.Significado(valor)).EsVacio()){
+        		if((DicIndiceN.Significado(valor)).EsVacia()){
         			DicIndiceN.Borrar(valor);
         		}
 
@@ -320,14 +320,12 @@ class Tabla {
         			((it.Siguiente()).CR()).EliminarSiguiente();
         			it.EliminarSiguiente();
 
-        		if((DicIndiceS.Significado(valor)).EsVacio()){
+        		if((DicIndiceS.Significado(valor)).EsVacia()){
         			DicIndiceS.Borrar(valor);
         		}
 
                 minDatoString = DicIndiceS.MinClave();
                 maxDatoString = DicIndiceS.MaxClave();
-                minDatoString = max(DicIndiceS);
-                maxDatoString = min(DicIndiceS);
 
         		}else{
         			Conj<Registro>::Iterador it = registrosT.CrearIt();
