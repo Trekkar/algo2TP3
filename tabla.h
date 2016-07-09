@@ -284,21 +284,32 @@ class Tabla {
         		Lista<tuplaIt>::Iterador it = (DicIndiceN.Significado(valor)).CrearIt();
         			while((it.HaySiguiente()) && !(registrosIguales((((it.Siguiente()).CR()).Siguiente()), r))){
         				it.Avanzar();
-        			}
+        		}
+
         		if(((it.Siguiente()).OA()).HaySiguiente()){
         		((it.Siguiente()).OA()).EliminarSiguiente();
+
+        		String valorString = (r.Significado(CamIndiceS)).dameString();
+
+        			if((DicIndiceS.Significado(valorString)).EsVacio()){
+        				DicIndiceS.Borrar(valorString);
+        			}
+
                 minDatoString = DicIndiceS.MinClave();
                 maxDatoString = DicIndiceS.MaxClave();
-
-                //minDatoString = max(DicIndiceS);      CUANDO ESTE LISTO TRIE
-                //maxDatoString = min(DicIndiceS);      CUANDO ESTE LISTO TRIE
         		}
+
+
         		((it.Siguiente()).CR()).EliminarSiguiente();
         		it.EliminarSiguiente();
+
+        		if((DicIndiceN.Significado(valor)).EsVacio()){
+        			DicIndiceN.Borrar(valor);
+        		}
+
                 minDatoNat = DicIndiceN.Min();
                 maxDatoNat = DicIndiceN.Max();
-                //minDatoNat = max(DicIndiceN);     CUANDO ESTE LISTO ABB
-                //maxDatoNat = min(DicIndiceN);     CUANDO ESTE LISTO ABB
+
         	}else{
         		if(EstaIndiceS){
         		String valor = (r.Significado(CamIndiceS)).dameString();
@@ -308,10 +319,16 @@ class Tabla {
         			}
         			((it.Siguiente()).CR()).EliminarSiguiente();
         			it.EliminarSiguiente();
-                minDatoString = DicIndiceS.MinClave();    //  CUANDO ESTE LISTO TRIE
+
+        		if((DicIndiceS.Significado(valor)).EsVacio()){
+        			DicIndiceS.Borrar(valor);
+        		}
+
+                minDatoString = DicIndiceS.MinClave();
                 maxDatoString = DicIndiceS.MaxClave();
-                //minDatoString = max(DicIndiceS);      CUANDO ESTE LISTO TRIE
-                //maxDatoString = min(DicIndiceS);      CUANDO ESTE LISTO TRIE
+                minDatoString = max(DicIndiceS);
+                maxDatoString = min(DicIndiceS);
+
         		}else{
         			Conj<Registro>::Iterador it = registrosT.CrearIt();
         			while((it.HaySiguiente()) && !(registrosIguales((it.Siguiente()), r))){
