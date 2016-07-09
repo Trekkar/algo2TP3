@@ -224,9 +224,16 @@ j = 0;
   cout << "Tiene que mostrar un 0 ---> " << b.hayJoin(nombreSegunda, nombrePrimera) << endl;
 
 
+  //CHEQUEO QUE NO HAYA NOMBRES EN LOS JOINS
+ 
+
+
+
+
+
 //TEST 5:
   cout << endl;
-  cout << "TEST 4:" << endl;
+  cout << "TEST 5:" << endl;
   b.generarVistaJoin(nombrePrimera, nombreSegunda, lu);
   Conj<Registro> vista = b.vistaJoin(nombrePrimera, nombreSegunda);
   Conj<Registro>::Iterador it = vista.CrearIt();
@@ -260,14 +267,15 @@ j = 0;
     while(it2.HaySiguiente()){
         mostrarReg(it2.Siguiente());
         it2.Avanzar();
-    }
+    } 
+
 
  
   cout  << "Ahora borro todos los registros para que el join me quede vacio" <<  endl;
   b.borrarRegistro(nombreSegunda, lu, Dato(100));
-  //b.borrarRegistro(nombreSegunda, lu, 155);
-  //b.borrarRegistro(nombrePrimera, lu, Dato(255));
-
+  b.borrarRegistro(nombreSegunda, lu, Dato(155));
+  b.borrarRegistro(nombrePrimera, lu, Dato(255));
+  cout << "CHECK" << endl;
   Conj<Registro> vista3 = b.vistaJoin(nombrePrimera, nombreSegunda);
   Conj<Registro>::Iterador it3 = vista3.CrearIt();
   cout << "Muestro el Join: " << endl;
@@ -280,7 +288,7 @@ j = 0;
           mostrarReg(it3.Siguiente());
           it3.Avanzar();
       }
-    }
+    } 
 
   
 

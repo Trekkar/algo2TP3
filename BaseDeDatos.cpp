@@ -203,7 +203,9 @@ Tabla& BaseDeDatos::dameTabla(const NombreTabla t) const{
 
 	if (((arbolTablas.Significado(t1)).dicJoin).Definido(t2)){
 		r = ((((arbolTablas.Significado(t1)).dicJoin).Significado(t2)).principal);
-	}else{ r = false; }
+	}else{
+    	 cout << "ESTO TIENE QUE SER UN CERO---> " << ((arbolTablas.Significado(t1)).nombresJoins).Pertenece(t2) << endl;
+		 r = false; }
 
 	return r;
 };
@@ -238,8 +240,8 @@ void BaseDeDatos::borrarJoin(const NombreTabla t1, const NombreTabla t2){
 }
 
 void BaseDeDatos::generarVistaJoin(const NombreTabla t1, const NombreTabla t2, const NombreCampo c){
-	Conj<NombreTabla>::Iterador c2 = ((arbolTablas.Significado(t1)).nombresJoins).AgregarRapido(t2);
-	Conj<NombreTabla>::Iterador c1 = ((arbolTablas.Significado(t2)).nombresJoins).AgregarRapido(t1);
+	//Conj<NombreTabla>::Iterador c2 = ((arbolTablas.Significado(t1)).nombresJoins).AgregarRapido(t2);
+	//Conj<NombreTabla>::Iterador c1 = ((arbolTablas.Significado(t2)).nombresJoins).AgregarRapido(t1);
 	Tabla* te1 = (arbolTablas.Significado(t1)).tab;
 	Tabla* te2 = (arbolTablas.Significado(t2)).tab;
  	
@@ -257,6 +259,8 @@ void BaseDeDatos::generarVistaJoin(const NombreTabla t1, const NombreTabla t2, c
 	{
 		((arbolTablas.Significado(t1)).dicJoin).Significado(t2).principal = true;
 	} else {
+		Conj<NombreTabla>::Iterador c2 = ((arbolTablas.Significado(t1)).nombresJoins).AgregarRapido(t2);
+		Conj<NombreTabla>::Iterador c1 = ((arbolTablas.Significado(t2)).nombresJoins).AgregarRapido(t1);
 
 		tuplaJoin* tj = new tuplaJoin(c, tc, c1, c2);
 
